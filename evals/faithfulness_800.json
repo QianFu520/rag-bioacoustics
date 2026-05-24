@@ -1,0 +1,393 @@
+{
+  "config": {
+    "rag_k": 5,
+    "generator_model": "claude-haiku-4-5-20251001",
+    "judge_model": "claude-haiku-4-5-20251001"
+  },
+  "per_question": [
+    {
+      "qid": "Q1",
+      "category": 1,
+      "question": "In the Python package `noisereduce`, how is the background noise estimate computed for non-stationary noise reduction?",
+      "retrieved_chunk_ids": [
+        "papers/neuroethology_review.docx: :chunk_10",
+        "papers/neuroethology_review.docx: :chunk_7",
+        "papers/neuroethology_review.docx: :chunk_11",
+        "papers/neuroethology_review.docx: :chunk_6",
+        "papers/neuroethology_review.docx: :chunk_8"
+      ],
+      "answer": "According to the passages provided, in the Python package noisereduce, the background estimate for non-stationary noise reduction is computed using a time-smoothed spectrogram (using a forward and backward IIR filter) on a timescale parameterized by the expected signal length. This approach is motivated by the Per-Channel Energy Normalization algorithm. [1]",
+      "judgment": "supported",
+      "rationale": "The answer directly quotes and accurately represents the information from passage [1], which explicitly states that the background estimate in noisereduce is computed using a time-smoothed spectrogram with a forward and backward IIR filter on a timescale parameterized by expected signal length, motivated by the Per-Channel Energy Normalization algorithm.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q2",
+      "category": 1,
+      "question": "What are the three related tasks that automatic vocalization annotation can be broken down into, and how is each defined?",
+      "retrieved_chunk_ids": [
+        "papers/neuroethology_review.docx: :chunk_32",
+        "papers/neuroethology_review.docx: :chunk_23",
+        "papers/neuroethology_review.docx: :chunk_53",
+        "papers/neuroethology_review.docx: :chunk_21",
+        "papers/neuroethology_review.docx: :chunk_34"
+      ],
+      "answer": "According to passage [2], automatic vocalization annotation can be broken down into three related tasks:\n\n1. **Identification**: Refers to what animal is vocalizing and at what times and frequency channels.\n\n2. **Segmentation**: Refers to the segmentation of vocalizations into their constituent units.\n\n3. **Labeling**: Refers to grouping units into discrete element categories.",
+      "judgment": "supported",
+      "rationale": "The answer directly quotes and accurately represents the three tasks and their definitions as stated in passage [2]. Each claim about identification, segmentation, and labeling is explicitly supported by the source material.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q3",
+      "category": 1,
+      "question": "What does the BoxedAnnotations class in OpenSoundscape do?",
+      "retrieved_chunk_ids": [
+        "papers/opensoundscape_methods.docx: :chunk_24",
+        "papers/opensoundscape_methods.docx: :chunk_14",
+        "papers/opensoundscape_methods.docx: :chunk_11",
+        "papers/opensoundscape_methods.docx: :chunk_5",
+        "papers/opensoundscape_methods.docx: :chunk_12"
+      ],
+      "answer": "According to passage [2], the BoxedAnnotations class does the following:\n\n- View and manipulate audio annotations\n- Prepare annotated data for training and evaluation of automated classification algorithms\n- Load and save annotation files\n- Filter, aggregate, manipulate and correct labels across a dataset\n\n[2]",
+      "judgment": "supported",
+      "rationale": "The answer directly quotes and accurately represents the description of the BoxedAnnotations class from passage [2], listing all four main functions described for the class without adding unsupported claims.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q4",
+      "category": 1,
+      "question": "In Notebook 1's analysis of *Atelopus varius* (the variable harlequin frog) vocalizations, what produces the call's rapid amplitude modulation?",
+      "retrieved_chunk_ids": [
+        "papers/opensoundscape_methods.docx: :chunk_18",
+        "papers/opensoundscape_methods.docx: :chunk_17",
+        "papers/neuroethology_review.docx: :chunk_106",
+        "papers/neuroethology_review.docx: :chunk_70",
+        "papers/neuroethology_review.docx: :chunk_64"
+      ],
+      "answer": "According to Passage [1], in Notebook 1's analysis of *Atelopus varius* vocalizations, the call's rapid amplitude modulation is produced by **constructive and destructive interference of tones differing by 130 Hz**.",
+      "judgment": "supported",
+      "rationale": "The answer directly quotes and accurately represents the information provided in Passage [1], which explicitly states that 'the call's rapid amplitude modulation is produced by constructive and destructive interference of tones differing by 130 Hz.' The answer is faithful to the source material.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q5",
+      "category": 1,
+      "question": "Why is the Raspberry Pi described as a power-hungry choice for acoustic monitoring devices, and what does that imply for long-term deployments?",
+      "retrieved_chunk_ids": [
+        "papers/audiomoth_deployment.docx: :chunk_4",
+        "papers/audiomoth_deployment.docx: :chunk_9",
+        "papers/audiomoth_deployment.docx: :chunk_73",
+        "papers/audiomoth_deployment.docx: :chunk_3",
+        "papers/audiomoth_deployment.docx: :chunk_6"
+      ],
+      "answer": "The passages provided do not contain any information about Raspberry Pi or its use in acoustic monitoring devices. Therefore, I cannot answer this question based on the given passages.",
+      "judgment": "supported",
+      "rationale": "The AI correctly identified that the passages do not mention Raspberry Pi or describe it as power-hungry for acoustic monitoring. The passages focus on AudioMoth as a low-power, open-source device and discuss commercial options like Wildlife Acoustics Song Meter, but contain no information about Raspberry Pi. The AI's refusal is faithful to what the passages actually contain.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q6",
+      "category": 1,
+      "question": "If an AudioMoth were to record bat echolocation continuously instead of using a detection algorithm, what would its nightly storage requirement and battery life be?",
+      "retrieved_chunk_ids": [
+        "papers/audiomoth_deployment.docx: :chunk_26",
+        "papers/audiomoth_deployment.docx: :chunk_25",
+        "papers/audiomoth_deployment.docx: :chunk_27",
+        "papers/audiomoth_deployment.docx: :chunk_52",
+        "papers/audiomoth_deployment.docx: :chunk_60"
+      ],
+      "answer": "Based on passage [1], if an AudioMoth were to record bat echolocation continuously instead of using a detection algorithm:\n\n- **Nightly storage requirement**: 18 GB of storage each night\n- **Battery life**: Approximately three nights (using three AAA-cell batteries)\n\n[1]",
+      "judgment": "supported",
+      "rationale": "The answer directly cites passage [1], which explicitly states that continuous recording would require 18 GB of storage each night and would exhaust three AAA-cell batteries in approximately three nights. Both claims in the answer are directly supported by the passage provided.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q7",
+      "category": 2,
+      "question": "What is the difference between stationary and non-stationary noise reduction, and what specific approach does the Python package `noisereduce` use to handle non-stationary noise?",
+      "retrieved_chunk_ids": [
+        "papers/neuroethology_review.docx: :chunk_11",
+        "papers/neuroethology_review.docx: :chunk_8",
+        "papers/neuroethology_review.docx: :chunk_7",
+        "papers/neuroethology_review.docx: :chunk_10",
+        "papers/neuroethology_review.docx: :chunk_6"
+      ],
+      "answer": "# Differences Between Stationary and Non-Stationary Noise Reduction\n\n**Stationary Noise Reduction:** [3, 5] Stationary noise reduction algorithms operationalize noise as stationary signals that remain constant in intensity and spectral shape over time, such as the constant hum from electronic devices in laboratory settings or insect noise in field settings.\n\n**Non-Stationary Noise Reduction:** [3] Non-stationary noise reduction targets background noise that fluctuates in time, such as the on-and-off presence of a plane flying overhead. [2] Non-stationary algorithms vary in how they determine what is signal and what is noise, which can be more challenging because it can be difficult to algorithmically define the difference between signal and noise.\n\n# How `noisereduce` Handles Non-Stationary Noise\n\n[4] The Python package `noisereduce` computes the background estimate using a time-smoothed spectrogram with a forward and backward IIR filter applied on a timescale parameterized by the expected signal length. This approach is motivated by the Per-Channel Energy Normalization algorithm and is demonstrated in applications such as removing airplane noise from birdsong recordings.",
+      "judgment": "supported",
+      "rationale": "All claims in the answer are directly supported by the provided passages. The definitions of stationary and non-stationary noise reduction are accurately drawn from passages [3] and [5], the characterization of the challenges with non-stationary algorithms is supported by passage [2], and the specific approach used by `noisereduce` is directly quoted from passage [4].",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q8",
+      "category": 2,
+      "question": "What is the distinction between local and global dimensionality reduction algorithms, and which type does UMAP fall into?",
+      "retrieved_chunk_ids": [
+        "papers/neuroethology_review.docx: :chunk_41",
+        "papers/neuroethology_review.docx: :chunk_40",
+        "papers/neuroethology_review.docx: :chunk_45",
+        "papers/neuroethology_review.docx: :chunk_43",
+        "papers/neuroethology_review.docx: :chunk_42"
+      ],
+      "answer": "Based on the passages provided:\n\n**The distinction between local and global dimensionality reduction algorithms:**\n\nLocal and global dimensionality reduction algorithms differ in what relationships they prioritize. Global dimensionality reduction algorithms (like MDS) attempt to preserve every pairwise relationship in the data. In contrast, local dimensionality reduction algorithms emphasize capturing relationships only to nearby points in the data space, weighing relationships between similar elements more highly than relationships between less similar elements. In vocalization datasets specifically, emphasizing local over global structure better preserves categorical structure such as individual and call identity. [2]\n\n**Which type UMAP falls into:**\n\nUMAP is a local dimensionality reduction algorithm. [1] It is described as one of \"the two dominant local dimensionality reduction algorithms\" alongside t-SNE. [1] UMAP has been shown to more clearly pull apart clusters corresponding to individual identity compared to the global algorithm MDS when applied to macaque coo calls. [1]",
+      "judgment": "supported",
+      "rationale": "All claims in the answer are directly supported by the passages provided. The distinction between local and global algorithms is accurately drawn from passages [2] and [1], and the classification of UMAP as a local dimensionality reduction algorithm is clearly stated in passages [1] and [2]. The specific examples about macaque coo calls and comparison with MDS are also directly supported.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q9",
+      "category": 2,
+      "question": "What kinds of automated detection methods does OpenSoundscape support, and in what situation might signal processing methods be preferable to deep learning?",
+      "retrieved_chunk_ids": [
+        "papers/opensoundscape_methods.docx: :chunk_10",
+        "papers/opensoundscape_methods.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_8",
+        "papers/opensoundscape_methods.docx: :chunk_12",
+        "papers/opensoundscape_methods.docx: :chunk_4"
+      ],
+      "answer": "Based on the passages provided:\n\n**Types of automated detection methods OpenSoundscape supports:**\n\nOpenSoundscape supports both machine learning and signal processing approaches. Specifically, it provides machine learning tools interfaced with PyTorch (including CNN model architectures) as well as signal processing algorithms. [1, 5]\n\n**When signal processing might be preferable to deep learning:**\n\nThe passages do not contain explicit information about situations where signal processing methods would be preferable to deep learning. While passage [1] states that \"some automated recognition tasks are well suited to machine learning while others are best solved with signal processing,\" it does not specify what characteristics or conditions make signal processing the better choice for particular tasks. The passages note that deep learning (especially convolutional neural networks) is \"considered to be [the] gold standard method for most classification tasks\" [2], but they do not explain the exceptions or circumstances favoring signal processing approaches.",
+      "judgment": "supported",
+      "rationale": "The answer accurately identifies the types of detection methods supported by OpenSoundscape (machine learning via PyTorch/CNNs and signal processing algorithms) with proper citations. The answer also correctly and faithfully acknowledges that while the passages state some tasks are better solved with signal processing, they do not provide specific information about when or why signal processing would be preferable\u2014this is a proper refusal to extrapolate beyond what the passages contain.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q10",
+      "category": 2,
+      "question": "What capability of OpenSoundscape's Audio and Spectrogram classes distinguishes them from other Python audio tools, and how is this capability demonstrated in the Notebook 1 case study?",
+      "retrieved_chunk_ids": [
+        "papers/opensoundscape_methods.docx: :chunk_11",
+        "papers/opensoundscape_methods.docx: :chunk_14",
+        "papers/opensoundscape_methods.docx: :chunk_16",
+        "papers/opensoundscape_methods.docx: :chunk_9",
+        "papers/opensoundscape_methods.docx: :chunk_19"
+      ],
+      "answer": "Based on the passages provided, I can answer the first part of your question but not the second part.\n\nAccording to passage [1], what distinguishes OpenSoundscape's Audio and Spectrogram classes from other Python audio tools is **\"the ability to retain, manipulate and inspect attributes and metadata of audio files alongside the raw sample data.\"** The passage explicitly states that \"to our knowledge, all other available Python tools lack this functionality.\"\n\nHowever, **the passages do not contain information about how this capability is demonstrated in a Notebook 1 case study.** While passage [3] mentions that \"Four Python notebooks demonstrating common workflows in OpenSoundscape are included in the Supporting Information,\" it does not describe what Notebook 1 specifically demonstrates. Passages [4] and [5] describe Notebooks 2 and 3, but there is no description of Notebook 1's contents.",
+      "judgment": "supported",
+      "rationale": "The answer correctly identifies the distinguishing capability of OpenSoundscape's Audio and Spectrogram classes from passage [1] with accurate quotation. It also faithfully notes that the passages do not contain information about Notebook 1's case study, which is accurate\u2014passages [3], [4], and [5] mention notebooks exist and describe Notebooks 2 and 3, but do not describe Notebook 1 specifically.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q11",
+      "category": 2,
+      "question": "What is the Goertzel algorithm and why is it used in AudioMoth's detection algorithms, and what algorithmic improvement does it offer over a Discrete Fourier Transform?",
+      "retrieved_chunk_ids": [
+        "papers/audiomoth_deployment.docx: :chunk_55",
+        "papers/audiomoth_deployment.docx: :chunk_22",
+        "papers/audiomoth_deployment.docx: :chunk_28",
+        "papers/audiomoth_deployment.docx: :chunk_23",
+        "papers/audiomoth_deployment.docx: :chunk_31"
+      ],
+      "answer": "Based on the passages provided:\n\n## What is the Goertzel Algorithm\n\nThe Goertzel algorithm is used to evaluate a subset of terms of a full FFT (Fast Fourier Transform) in order to perform frequency component extraction. A filter employing the Goertzel algorithm produces a response which represents the presence of a band of frequencies in a signal [2].\n\n## Why It's Used in AudioMoth\n\nThe Goertzel algorithm is used in AudioMoth's detection algorithms because it allows frequency component extraction \"without the computational expense of frequently running complete fast Fourier transforms (FFT)\" [2]. This computational efficiency is important for an embedded device like AudioMoth, which has limited processing power.\n\n## Algorithmic Improvement Over DFT\n\nThe passages do not contain explicit information comparing the Goertzel algorithm's specific computational advantages or algorithmic improvements over a Discrete Fourier Transform beyond the general statement that it avoids \"the computational expense of frequently running complete fast Fourier transforms.\" The passages do not provide algorithmic complexity analysis or detailed performance comparisons between the two methods.\n\n[2]",
+      "judgment": "supported",
+      "rationale": "The answer accurately reflects the passage content. It correctly identifies what the Goertzel algorithm is (evaluating a subset of FFT terms for frequency component extraction), why it's used in AudioMoth (computational efficiency compared to running complete FFTs), and appropriately notes that the passages do not provide specific algorithmic improvements or complexity analysis comparing Goertzel to DFT.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q12",
+      "category": 2,
+      "question": "How did the performance of the gunshot detection algorithm evolve across its iterations, including how the first deployment informed the redesign?",
+      "retrieved_chunk_ids": [
+        "papers/audiomoth_deployment.docx: :chunk_62",
+        "papers/audiomoth_deployment.docx: :chunk_63",
+        "papers/audiomoth_deployment.docx: :chunk_54",
+        "papers/audiomoth_deployment.docx: :chunk_58",
+        "papers/audiomoth_deployment.docx: :chunk_71"
+      ],
+      "answer": "Based on the passages provided, I can offer limited information about how the algorithm evolved:\n\nAccording to [2], the first iteration of the gunshot detection algorithm was deployed and tested in Pook's Hill Reserve. This iteration \"did not possess a dedicated noise state\u2014instead, it classified all non-gunshot samples as silence.\" When tested on gunshots fired at ranges up to 800 m through dense rainforest, it achieved \"a true positive rate of approximately 0.57.\"\n\nThe passages indicate that [2] \"With the recordings collected during this deployment, the model was reconfigured, using the samples to form a new set of emission and transition probabilities as well as produce the test dataset to benchmark future developments of the algorithm.\"\n\nHowever, the passages do not contain sufficient information to answer the full scope of your question. Specifically, they do not describe:\n- How the algorithm's performance changed in subsequent iterations after the redesign\n- What specific improvements were made beyond reconfiguring the emission and transition probabilities\n- Performance metrics for any iterations beyond the first one\n\nTo fully answer how performance evolved across iterations and the specific impacts of the first deployment, additional sources would be needed.",
+      "judgment": "supported",
+      "rationale": "The answer accurately reflects what the passages contain about the first deployment and its impact on redesign, while appropriately noting the limitations of the provided sources. All specific claims (true positive rate of 0.57, lack of dedicated noise state, reconfiguration of emission and transition probabilities) are directly supported by the passages, and the answer correctly identifies that the passages do not contain information about subsequent iterations' performance.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q13",
+      "category": 3,
+      "question": "What kinds of automated recording units (ARUs) or acoustic monitoring hardware does the bioacoustics literature describe, and what are the main tradeoffs between commercial devices and open-source alternatives?",
+      "retrieved_chunk_ids": [
+        "papers/audiomoth_deployment.docx: :chunk_4",
+        "papers/audiomoth_deployment.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_2",
+        "papers/opensoundscape_methods.docx: :chunk_6",
+        "papers/audiomoth_deployment.docx: :chunk_74"
+      ],
+      "answer": "Based on the passages provided, I can answer part of your question about the tradeoffs between commercial and open-source alternatives, but the passages don't contain comprehensive information about the types of ARUs/hardware described in the bioacoustics literature.\n\n## Tradeoffs Between Commercial and Open-Source Alternatives:\n\n**Commercial devices:**\n- High quality microphones and fidelity [1]\n- High prices that limit research scope and adoption in developing countries [1]\n- Closed-source, making it difficult or impossible to adapt hardware or software to specific applications [1]\n\n**Open-source alternatives (exemplified by AudioMoth):**\n- Low-cost [2]\n- Open-source hardware and firmware with permissive licenses allowing modification and extension without constraints [2]\n- Can be manufactured cheaply through group funding [2]\n- More flexible and can be tailored to specific application requirements [5]\n- Provide better affordability and storage/energy efficiency [5]\n- Can produce final datasets requiring significantly less time for analysis compared to commercial alternatives [5]\n\n## Limitation:\n\nThe passages do not provide a comprehensive description of the specific types or varieties of ARUs and acoustic monitoring hardware described in the bioacoustics literature. The passages focus primarily on AudioMoth as one example and mention commercial devices generally, but do not enumerate or describe other specific hardware options. [1, 2, 5]",
+      "judgment": "supported",
+      "rationale": "The AI's answer accurately reflects the content of the passages. All claims about commercial devices (high prices, closed-source, limited adoption) and open-source alternatives (low-cost, open-source design, flexibility, affordability benefits) are directly supported by the passages. The AI also correctly identifies that the passages do not provide comprehensive information about various types of ARUs/hardware in the broader literature, which is a faithful acknowledgment of the passages' limitations.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q14",
+      "category": 3,
+      "question": "How do the bioacoustics papers describe the use of convolutional neural networks (CNNs) for species or sound classification, and what are the practical constraints when deploying CNNs on low-cost hardware?",
+      "retrieved_chunk_ids": [
+        "papers/opensoundscape_methods.docx: :chunk_8",
+        "papers/opensoundscape_methods.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_19",
+        "papers/neuroethology_review.docx: :chunk_25",
+        "papers/opensoundscape_methods.docx: :chunk_7"
+      ],
+      "answer": "Based on the passages provided, I can answer part of your question:\n\n**Use of CNNs for species/sound classification:**\n\nThe passages describe CNNs as the gold standard method for classification tasks in bioacoustics [2]. Specifically, OpenSoundscape demonstrates training a CNN to recognize vocalizations of seven bird species [3]. When trained and used appropriately, these deep learning methods can provide accurate automation of acoustic detection that scales to analyses of thousands of hours of audio [3]. The passages note that most recent approaches for detecting vocalizations in noisy environments rely on deep neural networks [4].\n\n**Practical constraints when deploying CNNs:**\n\nHowever, the passages do **not contain information about practical constraints when deploying CNNs on low-cost hardware**. While the passages mention that some classification packages \"are not optimized for the large-scale parallel computing required to efficiently run deep learning algorithms at scale\" [1], they do not specifically address deployment on low-cost hardware. The passages do discuss that TensorFlow and PyTorch require advanced knowledge of Python and machine learning [5], but this is about usability rather than hardware constraints.\n\nTo fully answer your question about low-cost hardware deployment constraints, I would need additional sources beyond these passages.",
+      "judgment": "supported",
+      "rationale": "The answer accurately represents what the passages contain about CNN use in bioacoustics and correctly identifies that the passages do not provide information about deploying CNNs on low-cost hardware. All claims about CNNs are properly supported by passages [2], [3], and [4]. The answer's statement that passages don't address low-cost hardware deployment is a faithful refusal based on what is actually in the provided sources.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q15",
+      "category": 3,
+      "question": "How are Hidden Markov Models (HMMs) discussed in the bioacoustics literature \u2014 what role do they play in analyzing animal vocalizations versus detecting non-biological acoustic events?",
+      "retrieved_chunk_ids": [
+        "papers/neuroethology_review.docx: :chunk_55",
+        "papers/neuroethology_review.docx: :chunk_51",
+        "papers/neuroethology_review.docx: :chunk_106",
+        "papers/neuroethology_review.docx: :chunk_3",
+        "papers/neuroethology_review.docx: :chunk_53"
+      ],
+      "answer": "Based on the passages provided, I can only answer part of your question.\n\nThe passages discuss the role of Hidden Markov Models (HMMs) in analyzing animal vocalizations. According to the sources:\n\nHMMs are presented as one approach for capturing high-order Markov relationships in vocal communication. Passage [1] states that \"Hidden Markov Models and Probabilistic Suffix Trees can compute more succinct high-order Markov relationships\" compared to standard Markov models, though data limitations remain a challenge for capturing long-range organization.\n\nPassage [2] provides a concrete example of HMM application: MoSeq uses \"an Autoregressive Hidden Markov Model\" fitted to depth camera recordings to discover animal behavioral states in mice, identifying \"stereotyped sub-second mouse behavioral states, dubbed syllables, that underlie a syntax of behavior, much like birdsong.\"\n\nPassage [5] lists HMMs as one of \"six classes of models and analyses for analyzing temporal sequences\" in the context of vocal communication research.\n\nHowever, **the passages do not contain information about how HMMs are discussed regarding the detection of non-biological acoustic events**. I cannot answer that part of your question based on these sources.\n\n[1, 2, 5]",
+      "judgment": "supported",
+      "rationale": "The answer accurately represents what the passages say about HMMs in animal vocalization analysis, correctly citing passages [1], [2], and [5]. The answer also faithfully notes that the passages do not discuss HMMs in relation to detecting non-biological acoustic events, which is accurate \u2014 the passages focus solely on animal behavioral and vocal analysis.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q16",
+      "category": 3,
+      "question": "How does the bioacoustics literature describe the transition from earlier machine-learning approaches (like HMMs and template-matching) to modern deep learning for animal sound classification, and what specific deep learning tools are now available for researchers?",
+      "retrieved_chunk_ids": [
+        "papers/opensoundscape_methods.docx: :chunk_7",
+        "papers/opensoundscape_methods.docx: :chunk_8",
+        "papers/opensoundscape_methods.docx: :chunk_1",
+        "papers/opensoundscape_methods.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_4"
+      ],
+      "answer": "The passages don't contain enough information to answer your question. \n\nWhile the passages mention that deep learning is now \"considered to be [the] gold standard method for most classification tasks\" [4] and note that \"deep learning image recognition models have been used to recognize species-specific vocalizations of birds and cetacean\" [3], they do not describe the transition from earlier machine-learning approaches like HMMs and template-matching to modern deep learning methods.\n\nRegarding specific deep learning tools available for researchers, the passages only mention that \"TensorFlow and PyTorch\" are \"the most powerful and widely adopted machine learning tools for deep learning\" [1], but they do not provide a comprehensive overview of the specific deep learning tools currently available for animal sound classification.",
+      "judgment": "supported",
+      "rationale": "The AI correctly identifies that the passages do not describe the historical transition from HMMs and template-matching to deep learning, and do not provide a comprehensive overview of specific deep learning tools available for animal sound classification. The AI's characterization of what the passages do contain (mentioning TensorFlow and PyTorch, noting deep learning as the current gold standard) is accurate and well-supported by the provided passages.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q17",
+      "category": 4,
+      "question": "What is the F1 score, precision, and recall achieved by the AudioMoth bat detection algorithm on the soprano pipistrelle dataset?",
+      "retrieved_chunk_ids": [
+        "papers/audiomoth_deployment.docx: :chunk_33",
+        "papers/audiomoth_deployment.docx: :chunk_32",
+        "papers/audiomoth_deployment.docx: :chunk_31",
+        "papers/audiomoth_deployment.docx: :chunk_8",
+        "papers/audiomoth_deployment.docx: :chunk_35"
+      ],
+      "answer": "Based on the passages provided, the F1 score, precision, and recall achieved by the AudioMoth bat detection algorithm on the soprano pipistrelle dataset are:\n\n- **F1 score: 0.961**\n- **Precision: 0.994**\n- **Recall: 0.931**\n\n[1]",
+      "judgment": "supported",
+      "rationale": "The answer directly cites the specific metrics from passage [1], which explicitly states: 'The bat detection algorithm obtained an F1 score of 0.961 from a precision of 0.994 and a recall of 0.931.' Passage [3] confirms these metrics were assessed using soprano pipistrelle recordings. All three numerical claims are directly supported by the passages.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q18",
+      "category": 4,
+      "question": "What is AudioMoth's maximum supported sample rate, and what frequency response range does that give the device?",
+      "retrieved_chunk_ids": [
+        "papers/audiomoth_deployment.docx: :chunk_11",
+        "papers/audiomoth_deployment.docx: :chunk_27",
+        "papers/audiomoth_deployment.docx: :chunk_15",
+        "papers/audiomoth_deployment.docx: :chunk_40",
+        "papers/audiomoth_deployment.docx: :chunk_43"
+      ],
+      "answer": "According to passage [1], AudioMoth supports sample rates up to 384 kHz, which gives the device a frequency response range from 20 Hz to 192 kHz.",
+      "judgment": "supported",
+      "rationale": "The answer directly quotes from passage [1], which explicitly states that AudioMoth supports 'sample rates up to 384 kHz' and provides 'a broad spectrum frequency response from 20 Hz to 192 kHz.' Both claims in the answer are directly supported by this passage.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q19",
+      "category": 4,
+      "question": "In the neuroethology paper, what specific zebra finch motif characteristics are given as an example of a signal timescale for non-stationary noise reduction?",
+      "retrieved_chunk_ids": [
+        "papers/neuroethology_review.docx: :chunk_9",
+        "papers/neuroethology_review.docx: :chunk_64",
+        "papers/neuroethology_review.docx: :chunk_93",
+        "papers/neuroethology_review.docx: :chunk_88",
+        "papers/neuroethology_review.docx: :chunk_100"
+      ],
+      "answer": "According to passage [1], zebra finch motifs are generally between 0.5 and 1.5 seconds long and are repeated one to four times. These characteristics are given as an example of a signal timescale that can be used to determine the boundary between signal and non-stationary noise, where any acoustic event outside of that time range could be considered noise.",
+      "judgment": "supported",
+      "rationale": "The answer directly quotes and accurately represents the information from passage [1], which explicitly states that zebra finch motifs are 0.5-1.5 seconds long, repeated one to four times, and are used as an example for determining signal timescale boundaries for non-stationary noise reduction.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q20",
+      "category": 4,
+      "question": "What are the specifications of AudioMoth's processor and memory?",
+      "retrieved_chunk_ids": [
+        "papers/audiomoth_deployment.docx: :chunk_11",
+        "papers/audiomoth_deployment.docx: :chunk_12",
+        "papers/audiomoth_deployment.docx: :chunk_20",
+        "papers/audiomoth_deployment.docx: :chunk_27",
+        "papers/audiomoth_deployment.docx: :chunk_15"
+      ],
+      "answer": "Based on the passages provided:\n\nAudioMoth's processor and memory specifications are:\n\n**Processor:** An Arm Cortex-M4F processor operating at 48 MHz with hardware-enabled floating point arithmetic [2]\n\n**Memory:** \n- 256 KB of flash memory [2]\n- An external 256 KB static random access memory (SRAM) chip connected to the micro-controller using an external bus interface (EBI) [2]\n\n[2]",
+      "judgment": "supported",
+      "rationale": "All claims in the answer are directly supported by passage [2], which explicitly states the processor model (Arm Cortex-M4F operating at 48 MHz with hardware-enabled floating point arithmetic) and the memory specifications (256 KB flash memory and 256 KB external SRAM connected via EBI). The answer accurately reflects the information provided.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q21",
+      "category": 5,
+      "question": "What is the average gestation period of an African elephant?",
+      "retrieved_chunk_ids": [
+        "papers/neuroethology_review.docx: :chunk_54",
+        "papers/audiomoth_deployment.docx: :chunk_36",
+        "papers/neuroethology_review.docx: :chunk_62",
+        "papers/audiomoth_deployment.docx: :chunk_34",
+        "papers/neuroethology_review.docx: :chunk_106"
+      ],
+      "answer": "The passages don't contain enough information to answer this question. None of the passages discuss African elephants or gestation periods. The passages focus on animal communication analysis, bat call recording technology, and neuroethology research methods.",
+      "judgment": "supported",
+      "rationale": "The AI correctly identifies that the passages do not contain information about African elephant gestation periods. The passages provided indeed focus on animal communication analysis, AudioMoth recording technology, and neuroethology research methods, with no mention of African elephants or gestation periods. This is a faithful refusal supported by the actual content of the passages.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q22",
+      "category": 5,
+      "question": "What is the sample rate and battery life of the Wildlife Acoustics Song Meter?",
+      "retrieved_chunk_ids": [
+        "papers/audiomoth_deployment.docx: :chunk_3",
+        "papers/audiomoth_deployment.docx: :chunk_34",
+        "papers/audiomoth_deployment.docx: :chunk_60",
+        "papers/audiomoth_deployment.docx: :chunk_36",
+        "papers/audiomoth_deployment.docx: :chunk_27"
+      ],
+      "answer": "The passages don't contain enough information to answer this question. \n\nPassage [1] mentions that Wildlife Acoustics Song Meter series devices are commercial devices that \"achieve high sound fidelity at the cost of a high purchase price (US $800\u20131000 per unit),\" but it does not provide information about their sample rate or battery life.",
+      "judgment": "supported",
+      "rationale": "The AI assistant correctly identifies that the passages do not contain information about the sample rate and battery life of the Wildlife Acoustics Song Meter. While passage [1] mentions the Song Meter series devices, it only discusses their cost and sound fidelity, not their technical specifications. The passages instead focus on AudioMoth specifications and deployments.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q23",
+      "category": 5,
+      "question": "What accuracy did TweetyNet achieve, and what dataset was it trained on?",
+      "retrieved_chunk_ids": [
+        "papers/audiomoth_deployment.docx: :chunk_32",
+        "papers/audiomoth_deployment.docx: :chunk_59",
+        "papers/audiomoth_deployment.docx: :chunk_46",
+        "papers/neuroethology_review.docx: :chunk_109",
+        "papers/audiomoth_deployment.docx: :chunk_72"
+      ],
+      "answer": "The passages don't contain enough information to answer this question. TweetyNet is not mentioned in any of the provided passages. The passages discuss gunshot detection algorithms, cicada detection algorithms, and CNN-based detectors with mel-scale frequency banks, but TweetyNet is not discussed.",
+      "judgment": "supported",
+      "rationale": "The AI correctly identifies that TweetyNet is not mentioned in any of the provided passages. The passages discuss various detection algorithms (gunshot detection, cicada detection, and CNN-based detectors) but do not contain information about TweetyNet's accuracy or the dataset it was trained on. The refusal is faithful to what the passages actually contain.",
+      "unsupported_claims": []
+    },
+    {
+      "qid": "Q24",
+      "category": 5,
+      "question": "How does AudioMoth perform in underwater acoustic monitoring of cetacean vocalizations?",
+      "retrieved_chunk_ids": [
+        "papers/audiomoth_deployment.docx: :chunk_34",
+        "papers/audiomoth_deployment.docx: :chunk_7",
+        "papers/audiomoth_deployment.docx: :chunk_35",
+        "papers/opensoundscape_methods.docx: :chunk_1",
+        "papers/opensoundscape_methods.docx: :chunk_17"
+      ],
+      "answer": "The passages don't contain enough information to answer this question. While passage [4] mentions that \"deep learning image recognition models have been used to recognize species-specific vocalizations of birds and cetacean,\" it does not provide any information about AudioMoth's performance in underwater acoustic monitoring of cetacean vocalizations. The passages primarily describe AudioMoth deployments for terrestrial bat monitoring, not underwater cetacean monitoring.",
+      "judgment": "supported",
+      "rationale": "The AI's answer correctly identifies that the passages do not contain information about AudioMoth's performance in underwater acoustic monitoring of cetaceans. The passages only describe AudioMoth deployments for bat monitoring in terrestrial environments, and while passage [4] mentions cetacean vocalizations in general terms, it does not address underwater deployment or AudioMoth's performance with cetaceans. The refusal is faithful to what the passages actually contain.",
+      "unsupported_claims": []
+    }
+  ]
+}

@@ -1,0 +1,1251 @@
+{
+  "config": {
+    "k_values": [
+      3,
+      5,
+      10
+    ],
+    "embedding_model": "all-MiniLM-L6-v2",
+    "collection": "bioacoustics_papers"
+  },
+  "per_anchor": [
+    {
+      "qid": "Q1",
+      "category": 1,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/neuroethology_review.docx: :chunk_7"
+      ],
+      "retrieved_top_k": [
+        "papers/neuroethology_review.docx: :chunk_7",
+        "papers/neuroethology_review.docx: :chunk_4",
+        "papers/neuroethology_review.docx: :chunk_5",
+        "papers/neuroethology_review.docx: :chunk_6",
+        "papers/neuroethology_review.docx: :chunk_3",
+        "papers/neuroethology_review.docx: :chunk_8",
+        "papers/audiomoth_deployment.docx: :chunk_45",
+        "papers/audiomoth_deployment.docx: :chunk_38",
+        "papers/audiomoth_deployment.docx: :chunk_43",
+        "papers/audiomoth_deployment.docx: :chunk_28"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q2",
+      "category": 1,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/neuroethology_review.docx: :chunk_15"
+      ],
+      "retrieved_top_k": [
+        "papers/neuroethology_review.docx: :chunk_23",
+        "papers/neuroethology_review.docx: :chunk_15",
+        "papers/neuroethology_review.docx: :chunk_14",
+        "papers/neuroethology_review.docx: :chunk_22",
+        "papers/neuroethology_review.docx: :chunk_36",
+        "papers/neuroethology_review.docx: :chunk_20",
+        "papers/neuroethology_review.docx: :chunk_57",
+        "papers/neuroethology_review.docx: :chunk_73",
+        "papers/neuroethology_review.docx: :chunk_32",
+        "papers/neuroethology_review.docx: :chunk_33"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q3",
+      "category": 1,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/opensoundscape_methods.docx: :chunk_10"
+      ],
+      "retrieved_top_k": [
+        "papers/opensoundscape_methods.docx: :chunk_7",
+        "papers/opensoundscape_methods.docx: :chunk_8",
+        "papers/opensoundscape_methods.docx: :chunk_12",
+        "papers/opensoundscape_methods.docx: :chunk_17",
+        "papers/opensoundscape_methods.docx: :chunk_11",
+        "papers/opensoundscape_methods.docx: :chunk_15",
+        "papers/opensoundscape_methods.docx: :chunk_10",
+        "papers/opensoundscape_methods.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_4",
+        "papers/opensoundscape_methods.docx: :chunk_16"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q4",
+      "category": 1,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/opensoundscape_methods.docx: :chunk_13"
+      ],
+      "retrieved_top_k": [
+        "papers/opensoundscape_methods.docx: :chunk_13",
+        "papers/opensoundscape_methods.docx: :chunk_12",
+        "papers/neuroethology_review.docx: :chunk_67",
+        "papers/neuroethology_review.docx: :chunk_74",
+        "papers/neuroethology_review.docx: :chunk_59",
+        "papers/neuroethology_review.docx: :chunk_70",
+        "papers/neuroethology_review.docx: :chunk_64",
+        "papers/neuroethology_review.docx: :chunk_0",
+        "papers/neuroethology_review.docx: :chunk_2",
+        "papers/neuroethology_review.docx: :chunk_10"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q5",
+      "category": 1,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/audiomoth_deployment.docx: :chunk_3"
+      ],
+      "retrieved_top_k": [
+        "papers/audiomoth_deployment.docx: :chunk_3",
+        "papers/audiomoth_deployment.docx: :chunk_2",
+        "papers/audiomoth_deployment.docx: :chunk_6",
+        "papers/audiomoth_deployment.docx: :chunk_13",
+        "papers/audiomoth_deployment.docx: :chunk_1",
+        "papers/audiomoth_deployment.docx: :chunk_51",
+        "papers/audiomoth_deployment.docx: :chunk_4",
+        "papers/audiomoth_deployment.docx: :chunk_0",
+        "papers/audiomoth_deployment.docx: :chunk_10",
+        "papers/audiomoth_deployment.docx: :chunk_14"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q6",
+      "category": 1,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/audiomoth_deployment.docx: :chunk_17"
+      ],
+      "retrieved_top_k": [
+        "papers/audiomoth_deployment.docx: :chunk_17",
+        "papers/audiomoth_deployment.docx: :chunk_18",
+        "papers/audiomoth_deployment.docx: :chunk_36",
+        "papers/audiomoth_deployment.docx: :chunk_42",
+        "papers/audiomoth_deployment.docx: :chunk_24",
+        "papers/audiomoth_deployment.docx: :chunk_23",
+        "papers/audiomoth_deployment.docx: :chunk_5",
+        "papers/audiomoth_deployment.docx: :chunk_30",
+        "papers/audiomoth_deployment.docx: :chunk_43",
+        "papers/audiomoth_deployment.docx: :chunk_27"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q7",
+      "category": 2,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/neuroethology_review.docx: :chunk_4"
+      ],
+      "retrieved_top_k": [
+        "papers/neuroethology_review.docx: :chunk_5",
+        "papers/neuroethology_review.docx: :chunk_4",
+        "papers/neuroethology_review.docx: :chunk_7",
+        "papers/neuroethology_review.docx: :chunk_6",
+        "papers/neuroethology_review.docx: :chunk_3",
+        "papers/neuroethology_review.docx: :chunk_8",
+        "papers/audiomoth_deployment.docx: :chunk_45",
+        "papers/audiomoth_deployment.docx: :chunk_36",
+        "papers/audiomoth_deployment.docx: :chunk_43",
+        "papers/audiomoth_deployment.docx: :chunk_9"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q7",
+      "category": 2,
+      "anchor_index": 2,
+      "n_ground_truth": 2,
+      "ground_truth_chunks": [
+        "papers/neuroethology_review.docx: :chunk_6",
+        "papers/neuroethology_review.docx: :chunk_7"
+      ],
+      "retrieved_top_k": [
+        "papers/neuroethology_review.docx: :chunk_5",
+        "papers/neuroethology_review.docx: :chunk_4",
+        "papers/neuroethology_review.docx: :chunk_7",
+        "papers/neuroethology_review.docx: :chunk_6",
+        "papers/neuroethology_review.docx: :chunk_3",
+        "papers/neuroethology_review.docx: :chunk_8",
+        "papers/audiomoth_deployment.docx: :chunk_45",
+        "papers/audiomoth_deployment.docx: :chunk_36",
+        "papers/audiomoth_deployment.docx: :chunk_43",
+        "papers/audiomoth_deployment.docx: :chunk_9"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 0.5,
+          "n_hit": 1,
+          "n_gt": 2
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 2,
+          "n_gt": 2
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 2,
+          "n_gt": 2
+        }
+      }
+    },
+    {
+      "qid": "Q8",
+      "category": 2,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/neuroethology_review.docx: :chunk_27"
+      ],
+      "retrieved_top_k": [
+        "papers/neuroethology_review.docx: :chunk_27",
+        "papers/neuroethology_review.docx: :chunk_28",
+        "papers/neuroethology_review.docx: :chunk_29",
+        "papers/neuroethology_review.docx: :chunk_30",
+        "papers/neuroethology_review.docx: :chunk_77",
+        "papers/neuroethology_review.docx: :chunk_26",
+        "papers/neuroethology_review.docx: :chunk_31",
+        "papers/neuroethology_review.docx: :chunk_3",
+        "papers/neuroethology_review.docx: :chunk_32",
+        "papers/neuroethology_review.docx: :chunk_33"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q8",
+      "category": 2,
+      "anchor_index": 2,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/neuroethology_review.docx: :chunk_28"
+      ],
+      "retrieved_top_k": [
+        "papers/neuroethology_review.docx: :chunk_27",
+        "papers/neuroethology_review.docx: :chunk_28",
+        "papers/neuroethology_review.docx: :chunk_29",
+        "papers/neuroethology_review.docx: :chunk_30",
+        "papers/neuroethology_review.docx: :chunk_77",
+        "papers/neuroethology_review.docx: :chunk_26",
+        "papers/neuroethology_review.docx: :chunk_31",
+        "papers/neuroethology_review.docx: :chunk_3",
+        "papers/neuroethology_review.docx: :chunk_32",
+        "papers/neuroethology_review.docx: :chunk_33"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q9",
+      "category": 2,
+      "anchor_index": 1,
+      "n_ground_truth": 2,
+      "ground_truth_chunks": [
+        "papers/opensoundscape_methods.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_7"
+      ],
+      "retrieved_top_k": [
+        "papers/opensoundscape_methods.docx: :chunk_7",
+        "papers/opensoundscape_methods.docx: :chunk_4",
+        "papers/opensoundscape_methods.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_5",
+        "papers/opensoundscape_methods.docx: :chunk_2",
+        "papers/opensoundscape_methods.docx: :chunk_3",
+        "papers/opensoundscape_methods.docx: :chunk_15",
+        "papers/opensoundscape_methods.docx: :chunk_8",
+        "papers/audiomoth_deployment.docx: :chunk_53",
+        "papers/opensoundscape_methods.docx: :chunk_18"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 2,
+          "n_gt": 2
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 2,
+          "n_gt": 2
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 2,
+          "n_gt": 2
+        }
+      }
+    },
+    {
+      "qid": "Q9",
+      "category": 2,
+      "anchor_index": 2,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/opensoundscape_methods.docx: :chunk_14"
+      ],
+      "retrieved_top_k": [
+        "papers/opensoundscape_methods.docx: :chunk_7",
+        "papers/opensoundscape_methods.docx: :chunk_4",
+        "papers/opensoundscape_methods.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_5",
+        "papers/opensoundscape_methods.docx: :chunk_2",
+        "papers/opensoundscape_methods.docx: :chunk_3",
+        "papers/opensoundscape_methods.docx: :chunk_15",
+        "papers/opensoundscape_methods.docx: :chunk_8",
+        "papers/audiomoth_deployment.docx: :chunk_53",
+        "papers/opensoundscape_methods.docx: :chunk_18"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q10",
+      "category": 2,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/opensoundscape_methods.docx: :chunk_8"
+      ],
+      "retrieved_top_k": [
+        "papers/opensoundscape_methods.docx: :chunk_8",
+        "papers/opensoundscape_methods.docx: :chunk_12",
+        "papers/opensoundscape_methods.docx: :chunk_10",
+        "papers/opensoundscape_methods.docx: :chunk_11",
+        "papers/opensoundscape_methods.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_13",
+        "papers/opensoundscape_methods.docx: :chunk_7",
+        "papers/opensoundscape_methods.docx: :chunk_15",
+        "papers/opensoundscape_methods.docx: :chunk_17",
+        "papers/opensoundscape_methods.docx: :chunk_2"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q10",
+      "category": 2,
+      "anchor_index": 2,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/opensoundscape_methods.docx: :chunk_13"
+      ],
+      "retrieved_top_k": [
+        "papers/opensoundscape_methods.docx: :chunk_8",
+        "papers/opensoundscape_methods.docx: :chunk_12",
+        "papers/opensoundscape_methods.docx: :chunk_10",
+        "papers/opensoundscape_methods.docx: :chunk_11",
+        "papers/opensoundscape_methods.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_13",
+        "papers/opensoundscape_methods.docx: :chunk_7",
+        "papers/opensoundscape_methods.docx: :chunk_15",
+        "papers/opensoundscape_methods.docx: :chunk_17",
+        "papers/opensoundscape_methods.docx: :chunk_2"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q11",
+      "category": 2,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/audiomoth_deployment.docx: :chunk_14"
+      ],
+      "retrieved_top_k": [
+        "papers/audiomoth_deployment.docx: :chunk_19",
+        "papers/audiomoth_deployment.docx: :chunk_15",
+        "papers/audiomoth_deployment.docx: :chunk_38",
+        "papers/audiomoth_deployment.docx: :chunk_39",
+        "papers/audiomoth_deployment.docx: :chunk_20",
+        "papers/audiomoth_deployment.docx: :chunk_55",
+        "papers/audiomoth_deployment.docx: :chunk_14",
+        "papers/audiomoth_deployment.docx: :chunk_54",
+        "papers/audiomoth_deployment.docx: :chunk_16",
+        "papers/audiomoth_deployment.docx: :chunk_21"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q11",
+      "category": 2,
+      "anchor_index": 2,
+      "n_ground_truth": 2,
+      "ground_truth_chunks": [
+        "papers/audiomoth_deployment.docx: :chunk_16",
+        "papers/audiomoth_deployment.docx: :chunk_17"
+      ],
+      "retrieved_top_k": [
+        "papers/audiomoth_deployment.docx: :chunk_19",
+        "papers/audiomoth_deployment.docx: :chunk_15",
+        "papers/audiomoth_deployment.docx: :chunk_38",
+        "papers/audiomoth_deployment.docx: :chunk_39",
+        "papers/audiomoth_deployment.docx: :chunk_20",
+        "papers/audiomoth_deployment.docx: :chunk_55",
+        "papers/audiomoth_deployment.docx: :chunk_14",
+        "papers/audiomoth_deployment.docx: :chunk_54",
+        "papers/audiomoth_deployment.docx: :chunk_16",
+        "papers/audiomoth_deployment.docx: :chunk_21"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 2
+        },
+        "5": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 2
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 0.5,
+          "n_hit": 1,
+          "n_gt": 2
+        }
+      }
+    },
+    {
+      "qid": "Q12",
+      "category": 2,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/audiomoth_deployment.docx: :chunk_44"
+      ],
+      "retrieved_top_k": [
+        "papers/audiomoth_deployment.docx: :chunk_44",
+        "papers/audiomoth_deployment.docx: :chunk_38",
+        "papers/audiomoth_deployment.docx: :chunk_37",
+        "papers/audiomoth_deployment.docx: :chunk_35",
+        "papers/audiomoth_deployment.docx: :chunk_45",
+        "papers/audiomoth_deployment.docx: :chunk_54",
+        "papers/audiomoth_deployment.docx: :chunk_41",
+        "papers/audiomoth_deployment.docx: :chunk_36",
+        "papers/audiomoth_deployment.docx: :chunk_40",
+        "papers/audiomoth_deployment.docx: :chunk_43"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q12",
+      "category": 2,
+      "anchor_index": 2,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/audiomoth_deployment.docx: :chunk_45"
+      ],
+      "retrieved_top_k": [
+        "papers/audiomoth_deployment.docx: :chunk_44",
+        "papers/audiomoth_deployment.docx: :chunk_38",
+        "papers/audiomoth_deployment.docx: :chunk_37",
+        "papers/audiomoth_deployment.docx: :chunk_35",
+        "papers/audiomoth_deployment.docx: :chunk_45",
+        "papers/audiomoth_deployment.docx: :chunk_54",
+        "papers/audiomoth_deployment.docx: :chunk_41",
+        "papers/audiomoth_deployment.docx: :chunk_36",
+        "papers/audiomoth_deployment.docx: :chunk_40",
+        "papers/audiomoth_deployment.docx: :chunk_43"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q13",
+      "category": 3,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/opensoundscape_methods.docx: :chunk_0"
+      ],
+      "retrieved_top_k": [
+        "papers/audiomoth_deployment.docx: :chunk_2",
+        "papers/audiomoth_deployment.docx: :chunk_10",
+        "papers/audiomoth_deployment.docx: :chunk_4",
+        "papers/audiomoth_deployment.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_4",
+        "papers/opensoundscape_methods.docx: :chunk_0",
+        "papers/audiomoth_deployment.docx: :chunk_13",
+        "papers/opensoundscape_methods.docx: :chunk_18",
+        "papers/audiomoth_deployment.docx: :chunk_7",
+        "papers/opensoundscape_methods.docx: :chunk_5"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q13",
+      "category": 3,
+      "anchor_index": 2,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/audiomoth_deployment.docx: :chunk_2"
+      ],
+      "retrieved_top_k": [
+        "papers/audiomoth_deployment.docx: :chunk_2",
+        "papers/audiomoth_deployment.docx: :chunk_10",
+        "papers/audiomoth_deployment.docx: :chunk_4",
+        "papers/audiomoth_deployment.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_4",
+        "papers/opensoundscape_methods.docx: :chunk_0",
+        "papers/audiomoth_deployment.docx: :chunk_13",
+        "papers/opensoundscape_methods.docx: :chunk_18",
+        "papers/audiomoth_deployment.docx: :chunk_7",
+        "papers/opensoundscape_methods.docx: :chunk_5"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q14",
+      "category": 3,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/opensoundscape_methods.docx: :chunk_7"
+      ],
+      "retrieved_top_k": [
+        "papers/opensoundscape_methods.docx: :chunk_4",
+        "papers/opensoundscape_methods.docx: :chunk_5",
+        "papers/neuroethology_review.docx: :chunk_17",
+        "papers/opensoundscape_methods.docx: :chunk_3",
+        "papers/opensoundscape_methods.docx: :chunk_1",
+        "papers/audiomoth_deployment.docx: :chunk_12",
+        "papers/opensoundscape_methods.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_2",
+        "papers/opensoundscape_methods.docx: :chunk_18",
+        "papers/opensoundscape_methods.docx: :chunk_13"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q14",
+      "category": 3,
+      "anchor_index": 2,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/audiomoth_deployment.docx: :chunk_49"
+      ],
+      "retrieved_top_k": [
+        "papers/opensoundscape_methods.docx: :chunk_4",
+        "papers/opensoundscape_methods.docx: :chunk_5",
+        "papers/neuroethology_review.docx: :chunk_17",
+        "papers/opensoundscape_methods.docx: :chunk_3",
+        "papers/opensoundscape_methods.docx: :chunk_1",
+        "papers/audiomoth_deployment.docx: :chunk_12",
+        "papers/opensoundscape_methods.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_2",
+        "papers/opensoundscape_methods.docx: :chunk_18",
+        "papers/opensoundscape_methods.docx: :chunk_13"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q15",
+      "category": 3,
+      "anchor_index": 1,
+      "n_ground_truth": 2,
+      "ground_truth_chunks": [
+        "papers/neuroethology_review.docx: :chunk_37",
+        "papers/neuroethology_review.docx: :chunk_38"
+      ],
+      "retrieved_top_k": [
+        "papers/neuroethology_review.docx: :chunk_35",
+        "papers/neuroethology_review.docx: :chunk_74",
+        "papers/neuroethology_review.docx: :chunk_2",
+        "papers/neuroethology_review.docx: :chunk_37",
+        "papers/neuroethology_review.docx: :chunk_34",
+        "papers/neuroethology_review.docx: :chunk_73",
+        "papers/neuroethology_review.docx: :chunk_14",
+        "papers/neuroethology_review.docx: :chunk_38",
+        "papers/neuroethology_review.docx: :chunk_15",
+        "papers/neuroethology_review.docx: :chunk_16"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 2
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 0.5,
+          "n_hit": 1,
+          "n_gt": 2
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 2,
+          "n_gt": 2
+        }
+      }
+    },
+    {
+      "qid": "Q15",
+      "category": 3,
+      "anchor_index": 2,
+      "n_ground_truth": 4,
+      "ground_truth_chunks": [
+        "papers/audiomoth_deployment.docx: :chunk_35",
+        "papers/audiomoth_deployment.docx: :chunk_36",
+        "papers/audiomoth_deployment.docx: :chunk_38",
+        "papers/audiomoth_deployment.docx: :chunk_39"
+      ],
+      "retrieved_top_k": [
+        "papers/neuroethology_review.docx: :chunk_35",
+        "papers/neuroethology_review.docx: :chunk_74",
+        "papers/neuroethology_review.docx: :chunk_2",
+        "papers/neuroethology_review.docx: :chunk_37",
+        "papers/neuroethology_review.docx: :chunk_34",
+        "papers/neuroethology_review.docx: :chunk_73",
+        "papers/neuroethology_review.docx: :chunk_14",
+        "papers/neuroethology_review.docx: :chunk_38",
+        "papers/neuroethology_review.docx: :chunk_15",
+        "papers/neuroethology_review.docx: :chunk_16"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 4
+        },
+        "5": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 4
+        },
+        "10": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 4
+        }
+      }
+    },
+    {
+      "qid": "Q16",
+      "category": 3,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/neuroethology_review.docx: :chunk_21"
+      ],
+      "retrieved_top_k": [
+        "papers/opensoundscape_methods.docx: :chunk_5",
+        "papers/opensoundscape_methods.docx: :chunk_4",
+        "papers/opensoundscape_methods.docx: :chunk_18",
+        "papers/opensoundscape_methods.docx: :chunk_1",
+        "papers/neuroethology_review.docx: :chunk_17",
+        "papers/opensoundscape_methods.docx: :chunk_0",
+        "papers/opensoundscape_methods.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_3",
+        "papers/opensoundscape_methods.docx: :chunk_2",
+        "papers/neuroethology_review.docx: :chunk_21"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 0,
+          "coverage": 0.0,
+          "n_hit": 0,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q16",
+      "category": 3,
+      "anchor_index": 2,
+      "n_ground_truth": 2,
+      "ground_truth_chunks": [
+        "papers/opensoundscape_methods.docx: :chunk_4",
+        "papers/opensoundscape_methods.docx: :chunk_5"
+      ],
+      "retrieved_top_k": [
+        "papers/opensoundscape_methods.docx: :chunk_5",
+        "papers/opensoundscape_methods.docx: :chunk_4",
+        "papers/opensoundscape_methods.docx: :chunk_18",
+        "papers/opensoundscape_methods.docx: :chunk_1",
+        "papers/neuroethology_review.docx: :chunk_17",
+        "papers/opensoundscape_methods.docx: :chunk_0",
+        "papers/opensoundscape_methods.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_3",
+        "papers/opensoundscape_methods.docx: :chunk_2",
+        "papers/neuroethology_review.docx: :chunk_21"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 2,
+          "n_gt": 2
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 2,
+          "n_gt": 2
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 2,
+          "n_gt": 2
+        }
+      }
+    },
+    {
+      "qid": "Q17",
+      "category": 4,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/audiomoth_deployment.docx: :chunk_22"
+      ],
+      "retrieved_top_k": [
+        "papers/audiomoth_deployment.docx: :chunk_22",
+        "papers/audiomoth_deployment.docx: :chunk_21",
+        "papers/audiomoth_deployment.docx: :chunk_23",
+        "papers/audiomoth_deployment.docx: :chunk_24",
+        "papers/audiomoth_deployment.docx: :chunk_31",
+        "papers/audiomoth_deployment.docx: :chunk_18",
+        "papers/audiomoth_deployment.docx: :chunk_12",
+        "papers/audiomoth_deployment.docx: :chunk_35",
+        "papers/audiomoth_deployment.docx: :chunk_37",
+        "papers/audiomoth_deployment.docx: :chunk_36"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q18",
+      "category": 4,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/audiomoth_deployment.docx: :chunk_7"
+      ],
+      "retrieved_top_k": [
+        "papers/audiomoth_deployment.docx: :chunk_7",
+        "papers/audiomoth_deployment.docx: :chunk_18",
+        "papers/audiomoth_deployment.docx: :chunk_27",
+        "papers/audiomoth_deployment.docx: :chunk_10",
+        "papers/audiomoth_deployment.docx: :chunk_29",
+        "papers/audiomoth_deployment.docx: :chunk_8",
+        "papers/audiomoth_deployment.docx: :chunk_30",
+        "papers/audiomoth_deployment.docx: :chunk_24",
+        "papers/audiomoth_deployment.docx: :chunk_9",
+        "papers/audiomoth_deployment.docx: :chunk_42"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q19",
+      "category": 4,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/neuroethology_review.docx: :chunk_6"
+      ],
+      "retrieved_top_k": [
+        "papers/neuroethology_review.docx: :chunk_6",
+        "papers/neuroethology_review.docx: :chunk_60",
+        "papers/neuroethology_review.docx: :chunk_70",
+        "papers/neuroethology_review.docx: :chunk_44",
+        "papers/neuroethology_review.docx: :chunk_62",
+        "papers/neuroethology_review.docx: :chunk_74",
+        "papers/neuroethology_review.docx: :chunk_19",
+        "papers/neuroethology_review.docx: :chunk_2",
+        "papers/neuroethology_review.docx: :chunk_43",
+        "papers/neuroethology_review.docx: :chunk_61"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    },
+    {
+      "qid": "Q20",
+      "category": 4,
+      "anchor_index": 1,
+      "n_ground_truth": 1,
+      "ground_truth_chunks": [
+        "papers/audiomoth_deployment.docx: :chunk_8"
+      ],
+      "retrieved_top_k": [
+        "papers/audiomoth_deployment.docx: :chunk_8",
+        "papers/audiomoth_deployment.docx: :chunk_7",
+        "papers/audiomoth_deployment.docx: :chunk_55",
+        "papers/audiomoth_deployment.docx: :chunk_18",
+        "papers/audiomoth_deployment.docx: :chunk_9",
+        "papers/audiomoth_deployment.docx: :chunk_13",
+        "papers/audiomoth_deployment.docx: :chunk_6",
+        "papers/opensoundscape_methods.docx: :chunk_10",
+        "papers/audiomoth_deployment.docx: :chunk_27",
+        "papers/opensoundscape_methods.docx: :chunk_12"
+      ],
+      "scores": {
+        "3": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "5": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        },
+        "10": {
+          "any_hit": 1,
+          "coverage": 1.0,
+          "n_hit": 1,
+          "n_gt": 1
+        }
+      }
+    }
+  ]
+}
