@@ -15,7 +15,7 @@ versus baseline, and an honest reading of what held and what surprised.
 
 ### Hypothesis
 
-The Day 4-5 baseline (recall@5 coverage 0.60, faithfulness 1.00) showed
+The baseline (recall@5 coverage 0.60, faithfulness 1.00) showed
 retrieval was the bottleneck, not generation. Within retrieval, the
 synthesis category had the largest any-hit/coverage gap (0.67 vs 0.54),
 meaning retrieval often found *one* of the chunks needed to answer a
