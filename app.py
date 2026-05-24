@@ -115,8 +115,93 @@ with tab1:
         st.warning("Please enter a question.")
 
 with tab2:
-    st.header("Eval results")
-    st.write("Tab 2 content coming in the next step.")
+    st.header("Evaluation results")
+    st.markdown(
+        "I built an evaluation framework alongside this RAG system to "
+        "measure retrieval quality (recall@k with hit and coverage metrics) "
+        "and generation quality (faithfulness via LLM-as-judge). The "
+        "framework runs on a hand-curated 24-question eval set with "
+        "verified ground truth chunks. Below: how three iterations of "
+        "retrieval improvements moved the metrics."
+    )
+
+    # --- Headline metrics: recall@5 coverage across four configs ---
+    st.markdown("### Overall recall@5 coverage across iterations")
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric(
+            "Baseline",
+            "0.60",
+            help="Chunk size 800, semantic retrieval only",
+        )
+    with col2:
+        st.metric(
+            "Iteration 1",
+            "0.77",
+            delta="+0.17",
+            help="Chunk size 1200, semantic retrieval",
+        )
+    with col3:
+        st.metric(
+            "Iteration 2",
+            "0.65",
+            delta="-0.12",
+            help="Chunk size 1200 + overlap 200 (reverted; see ITERATION.md)",
+        )
+    with col4:
+        st.metric(
+            "Iteration 3",
+            "0.88",
+            delta="+0.11",
+            help="Chunk size 1200 + hybrid retrieval (BM25 + semantic with RRF)",
+        )
+
+    st.markdown("&nbsp;")  # vertical spacing
+
+    # --- Full comparison table ---
+    st.markdown("### Recall@k and faithfulness by configuration")
+
+    import pandas as pd
+
+    df = pd.DataFrame(
+        {
+            "Configuration": [
+                "Baseline (chunk size 800)",
+                "Iter 1 (chunk size 1200)",
+                "Iter 2 (1200 + overlap 200)",
+                "Iter 3 (1200 + hybrid)",
+            ],
+            "any@3": [0.63, 0.83, 0.67, 0.87],
+            "cov@3": [0.53, 0.78, 0.60, 0.83],
+            "any@5": [0.67, 0.80, 0.67, 0.90],
+            "cov@5": [0.60, 0.77, 0.65, 0.88],
+            "any@10": [0.83, 0.93, 0.87, 0.90],
+            "cov@10": [0.80, 0.93, 0.85, 0.90],
+            "Faithfulness": [1.00, 0.98, 0.96, 0.98],
+        }
+    )
+
+    st.table(df.style.format({col: "{:.2f}" for col in df.columns if col != "Configuration"}))
+
+    # --- Brief reading guide ---
+    st.markdown("### Reading the table")
+    st.markdown(
+        "- **any@k**: did retrieval get at least one ground-truth chunk into "
+        "the top-k? (binary, averaged across 30 anchors)\n"
+        "- **cov@k**: what fraction of ground-truth chunks did retrieval find? "
+        "(0.0 to 1.0, averaged across 30 anchors)\n"
+        "- **Faithfulness**: LLM-as-judge score of whether the generated "
+        "answer is supported by the retrieved chunks (1.0 = all supported)\n"
+        "\n"
+        "**Iter 2 regressed** and was reverted — bigger chunks with overlap "
+        "diluted the embedding distinctiveness that drove Iter 1's gains. "
+        "**Iter 3 added lexical retrieval (BM25)** in addition to semantic, "
+        "fused with reciprocal rank fusion (RRF). Cross-doc questions, where "
+        "lexical signal complements semantic similarity, benefited most.\n"
+        "\n"
+        "Full iteration writeups in [`ITERATION.md`](https://github.com/QianFu520/rag-bioacoustics/blob/main/evals/ITERATION.md). "
+        "Documented limitations in [`NORMALIZER_NOTES.md`](https://github.com/QianFu520/rag-bioacoustics/blob/main/evals/NORMALIZER_NOTES.md)."
+    )
 
 with tab3:
     st.header("Try the eval framework")
