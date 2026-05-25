@@ -13,7 +13,7 @@ PROJECT_ROOT = HERE.parent
 EVAL_SET_PATH = HERE / "eval_set.md"
 RESULTS_PATH = HERE / "faithfulness.json"
 
-# generate.py and its .env live at project root; make importable
+
 sys.path.insert(0, str(PROJECT_ROOT))
 from generate import answer
 
@@ -88,7 +88,7 @@ def parse_judge_response(response_text):
     except json.JSONDecodeError:
         pass
 
-    # Fallback: find the first {...} block in the response
+    
     match = re.search(r"\{.*\}", response_text, re.DOTALL)
     if match:
         try:
@@ -153,10 +153,10 @@ def run():
         category = q["category"]
         question = q["question"]
 
-        # 1+2: production pipeline (retrieve + generate) — what the user would see
+        # production pipeline (retrieve + generate) — what the user would see
         answer_text, retrieved = answer(question, k=RAG_K, return_chunks=True)
 
-        # 3: judge
+        #judge
         judgment = judge_faithfulness(question, retrieved, answer_text)
 
         # Print one line per question
@@ -169,7 +169,7 @@ def run():
 
         print(f"  {qid:5} | cat {category} | {verdict_marker} {judgment['judgment']}")
 
-        # Save full audit trail — every input, every output, for Day 6 forensics
+        
         all_results.append({
             "qid": qid,
             "category": category,
@@ -226,7 +226,7 @@ def run():
 
     # A faithfulness "score" for the overall pipeline:
     # supported = 1.0, partial = 0.5, unsupported = 0.0
-    # parse_errors excluded from the score; we report them separately
+    
     scored = [r for r in all_results if r["judgment"] != "parse_error"]
     if scored:
         score_map = {"supported": 1.0, "partially_supported": 0.5, "not_supported": 0.0}
