@@ -29,11 +29,7 @@ COLLECTION_NAME = "bioacoustics_papers"
 
 
 def split_into_sentences(text):
-    """Same regex as the chunker — split after .!? followed by whitespace.
-
-    Using the same logic as the chunker ensures that if the chunker considered
-    these as separate sentences during chunking, we split them the same way now.
-    """
+  
     parts = re.split(r"(?<=[.!?])\s+", text.strip())
     return [p for p in parts if p]
 
@@ -75,7 +71,7 @@ def run():
         print(f"Anchor splits into {len(sentences)} sentence(s):\n")
 
         all_sentences_found = True
-        sentence_chunks = []  # list of (sentence_index, [chunk_ids]) for the summary
+        sentence_chunks = []  
 
         for s_idx, sentence in enumerate(sentences, start=1):
             preview = sentence[:90].replace("\n", " ")
@@ -93,7 +89,7 @@ def run():
 
         # Verdict for this anchor
         if all_sentences_found:
-            # Check if the chunks are adjacent (boundary case) or scattered
+            
             chunk_nums = []
             for _, chunks in sentence_chunks:
                 for c in chunks:
