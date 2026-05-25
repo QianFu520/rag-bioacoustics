@@ -120,7 +120,7 @@ The build script chunks the three papers, creates MiniLM embeddings stored in Ch
 
 ## Known limitations
 
-**Three cross-doc retrieval failures remain unrecovered.** Q14 a1, Q14 a2, and Q15 a2 — described in Section 6's Iter 3 paragraph — represent a query-document vocabulary mismatch that neither lexical nor dense retrieval bridges. The right next intervention is query expansion or HyDE, neither of which this project implements.
+**Three cross-doc retrieval failures remain unrecovered.** Q14 a1, Q14 a2, and Q15 a2 — described in The iteration story (Iter 3) — represent a query-document vocabulary mismatch that neither lexical nor dense retrieval bridges. The right next intervention is query expansion or HyDE, neither of which this project implements.
 
 **Q17 faithfulness shows reproducible judge variance.** Across four eval runs (baseline, iter 1, iter 2, iter 3), the Q17 generated answer consistently returns a partially-supported verdict from the judge. The judge's specific concern (whether the cited metrics attribute explicitly to the soprano pipistrelle dataset) is at the boundary of LLM-as-judge reliability for this kind of claim. The pattern is documented as judge variance, not a generation regression.
 
@@ -134,3 +134,17 @@ The build script chunks the three papers, creates MiniLM embeddings stored in Ch
 - The Streamlit Cloud deployment has cold-start delays (~30s) after periods of inactivity
 
 Full normalizer behavior and judge prompt design in [`evals/NORMALIZER_NOTES.md`](evals/NORMALIZER_NOTES.md).
+
+## Tech stack
+
+- **Language:** Python 3.12
+- **Document loading:** python-docx
+- **Embeddings:** sentence-transformers (`all-MiniLM-L6-v2`)
+- **Vector store:** ChromaDB
+- **Lexical retrieval:** rank-bm25
+- **Generation and judging:** Anthropic SDK (Claude Haiku 4.5)
+- **UI / demo:** Streamlit
+- **Data display:** pandas
+- **Deployment:** Streamlit Cloud (free tier)
+
+Full pinned versions in [`requirements.txt`](requirements.txt).
