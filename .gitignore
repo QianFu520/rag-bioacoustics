@@ -6,3 +6,4 @@ __pycache__/
 .DS_Store
 bm25_index.pkl
 scratch/
+RAG_PROJECT_PLAN.md
