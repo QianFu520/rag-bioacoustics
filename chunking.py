@@ -1,22 +1,13 @@
 import re
 
 def split_into_sentences(text):
-    ## split after . ! followed by a space. Good enough for clean prose.
-
+    
     parts = re.split(r'(?<=[.!?])\s+', text.strip())
     return [p for p in parts if p]
 
 
 def _tail_sentences_for_overlap(chunk_text, overlap_chars):
-    """Return the suffix sentences of a chunk that fit within overlap_chars.
-
-    The next chunk will start with these sentences, so adjacent chunks share
-    their boundary region. We preserve the 'whole sentences only' invariant
-    by selecting complete sentences from the tail, not raw character slices.
-
-    Walks sentences from the end backward, accumulating until adding the
-    next-earlier sentence would exceed overlap_chars.
-    """
+    
     if overlap_chars <= 0:
         return []
     sentences = split_into_sentences(chunk_text)
@@ -34,16 +25,7 @@ def _tail_sentences_for_overlap(chunk_text, overlap_chars):
 
 
 def chunk_by_sentences(text, target_size, overlap=0):
-    """Pack sentences into chunks of at most target_size chars.
-
-    Args:
-        text: source text.
-        target_size: max chars per chunk (whole-sentence rule still wins —
-            a single sentence longer than target_size will exceed it).
-        overlap: chars of trailing sentences from the previous chunk to
-            include at the start of the next chunk. 0 = no overlap
-            (original behavior).
-    """
+   
     sentences = split_into_sentences(text)
     chunks = []
     current = ""
