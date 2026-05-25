@@ -24,14 +24,7 @@ BM25_PATH = PROJECT_ROOT / "bm25_index.pkl"
 import re
 
 def demote_markdown_headings(text):
-    """Demote markdown headings by 2 levels for display.
-
-    The generator (Haiku) tends to use # and ## for answer structure, which
-    renders larger than the page's own headings in Streamlit. This shifts
-    every heading down 2 levels: # → ###, ## → ####, etc. Preserves the
-    structural intent of the answer while making it sit visually below
-    page-level headings.
-    """
+    
     def demote(match):
         hashes = match.group(1)
         # Add 2 hashes, cap at 6 (the max heading level)
@@ -42,11 +35,7 @@ def demote_markdown_headings(text):
 
 @st.cache_resource
 def init_pipeline():
-    """Initialize the RAG pipeline. Builds indexes if they don't exist.
-
-    Cached with @st.cache_resource so this runs ONCE per app lifetime,
-    regardless of how many users hit the app or how many reruns happen.
-    """
+   
     # Check if both indexes already exist
     indexes_exist = CHROMA_PATH.exists() and BM25_PATH.exists()
 
@@ -57,7 +46,7 @@ def init_pipeline():
         build()
 
     # Now load and return the retriever module — its module-level setup
-    # connects to ChromaDB and loads BM25 from disk
+    
     from retrieve_hybrid import retrieve
     return retrieve
 
@@ -98,8 +87,7 @@ with tab1:
         "enough information."
     )
 
-    # The form pattern: widgets inside `with st.form` only trigger
-    # a rerun when the submit button is clicked, not on every keystroke.
+    
     with st.form("question_form", clear_on_submit=False):
         question = st.text_input(
             "Your question:",
@@ -377,7 +365,7 @@ with tab3:
         st.markdown("### Scorecard")
 
         if is_refusal:
-            # Only show faithfulness for refusals — custom HTML for font sizing
+            
             col1 = st.columns(1)[0]
             verdict_emoji = {
                 "supported": "✓",
@@ -399,7 +387,7 @@ with tab3:
         else:
             col1, col2, col3 = st.columns(3)
 
-            # Recall@5 hit — custom HTML to match the smaller font size used in col3
+            # Recall@5 hit 
             any_hit = len(retrieved_id_set & gt_chunk_ids) > 0
             recall_label = "Yes" if any_hit else "No"
             with col1:
@@ -413,7 +401,7 @@ with tab3:
                     unsafe_allow_html=True,
                 )
 
-            # Coverage — custom HTML for consistent font sizing
+            # Coverage — 
             n_hit = len(retrieved_id_set & gt_chunk_ids)
             n_gt = len(gt_chunk_ids)
             with col2:
@@ -428,9 +416,7 @@ with tab3:
                 )
 
             # Faithfulness
-            # Faithfulness — custom HTML so we control the font size
-            # (st.metric doesn't expose font size, and "partially supported" at
-            # st.metric's default ~36pt looks too loud)
+            
             verdict_emoji = {
                 "supported": "✓",
                 "partially_supported": "◐",
