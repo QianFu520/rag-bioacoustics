@@ -70,7 +70,7 @@ through anchor 2 sentence 1 and anchor 1, both of which match cleanly.
 ## LLM-as-judge: same model for generator and judge
 
 ### Context
-The faithfulness evaluation (Day 5) uses `claude-haiku-4-5-20251001` as both
+The faithfulness evaluation  uses `claude-haiku-4-5-20251001` as both
 the generator (called by `generate.py`) and the judge (called by
 `evals/faithfulness.py`). The baseline run scored 1.00 across all 24
 questions.
@@ -107,14 +107,12 @@ This decouples generator bias from judge bias and produces a more defensible
 score.
 
 ### Resolution for this project
-Accepted as a known limitation. Cost of using a second model family (extra
-SDK, extra credentials, extra cost) exceeded the benefit for an 8-day
-portfolio scope where the rationale spot-check already validated the score.
+Accepted as a known limitation.
 
 ## Answer relevance: not implemented as a separate metric
 
 ### Context
-The original Day 5 plan called for three eval metrics: recall@k,
+The original plan called for three eval metrics: recall@k,
 faithfulness, and answer relevance. Recall@k and faithfulness were built.
 Answer relevance was not.
 
@@ -150,6 +148,6 @@ setting, answer relevance is worth its cost.
 
 ### Resolution for this project
 Skipped. The decision is on record here so it doesn't look like an
-oversight. The Day 5 deliverable is complete with recall@k + faithfulness
+oversight. The deliverable is complete with recall@k + faithfulness
 covering the two failure modes that matter for this corpus (retrieval
 finding the wrong stuff; generation drifting from passages).
