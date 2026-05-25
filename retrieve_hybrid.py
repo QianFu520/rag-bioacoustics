@@ -17,7 +17,7 @@ from pathlib import Path
 import chromadb
 from sentence_transformers import SentenceTransformer
 
-from build_store import tokenize  # share the tokenizer with the indexer
+from build_store import tokenize  
 
 # --- paths and constants ---
 _HERE = Path(__file__).parent
@@ -26,8 +26,7 @@ _BM25_INDEX_PATH = _HERE / "bm25_index.pkl"
 _COLLECTION_NAME = "bioacoustics_papers"
 
 # How many candidates each retriever fetches before fusion.
-# RRF works best when there's overlap between the two ranked lists,
-# which requires fetching more than the final k.
+
 K_FETCH = 20
 
 # RRF constant. The standard value from the 2009 paper; rarely tuned.
@@ -85,29 +84,21 @@ def _reciprocal_rank_fusion(ranked_lists, rrf_k=RRF_K):
 
 
 def retrieve(question, k=3):
-    """Hybrid retrieval. Drop-in replacement for retrieve.py's retrieve().
-
-    Returns a dict matching ChromaDB's result format:
-      {"ids": [[...]], "documents": [[...]], "metadatas": [[...]], "distances": [[...]]}
-
-    The outer list-of-list nesting matches Chroma's batch-query format so
-    downstream code (generate.py, recall_at_k.py) doesn't need to change.
-    """
+   
     semantic_results = _retrieve_semantic(question, K_FETCH)
     bm25_results = _retrieve_bm25(question, K_FETCH)
     fused_ids = _reciprocal_rank_fusion([semantic_results, bm25_results])
     top_ids = fused_ids[:k]
 
     # Fetch chunk content and metadata for the top-k from ChromaDB
-    # (we use ChromaDB as the source of truth for document text)
+    
     fetched = _collection.get(ids=top_ids)
-    # Chroma's .get() returns results in whatever order it likes; reorder to match top_ids
+    
     id_to_idx = {cid: i for i, cid in enumerate(fetched["ids"])}
     ordered_docs = [fetched["documents"][id_to_idx[cid]] for cid in top_ids]
     ordered_meta = [fetched["metadatas"][id_to_idx[cid]] for cid in top_ids]
 
-    # Return in Chroma's batch-nested format. We don't have meaningful
-    # "distances" for the fused ranking, so leave that field absent.
+    
     return {
         "ids": [top_ids],
         "documents": [ordered_docs],
