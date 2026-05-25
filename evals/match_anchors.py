@@ -1,5 +1,5 @@
 """
-Anchor-to-chunk matcher (Option A: per-sentence matching).
+Anchor-to-chunk matcher.
 
 For each eval question's anchor, the matcher splits the anchor into sentences
 using the same regex the chunker uses, then searches for each sentence
@@ -10,9 +10,6 @@ multi-sentence anchors may span chunk boundaries.
 Output:
   - Console diagnostic table (one row per anchor)
   - ground_truth.json: machine-readable artifact for recall@k
-
-Run: python evals/match_anchors.py  (from project root)
-  or python match_anchors.py        (from inside evals/)
 """
 import json
 import re
@@ -65,23 +62,13 @@ def parse_eval_set(path):
 
 
 def split_into_sentences(text):
-    """Split anchor text into sentences using the same regex as the chunker.
-
-    Matching the chunker's sentence boundaries means: if the chunker treated
-    two pieces of text as separate sentences during chunking (and thus could
-    have placed them in different chunks), we split them the same way here.
-    """
+  
     parts = re.split(r"(?<=[.!?])\s+", text.strip())
     return [p for p in parts if p]
 
 
 def load_chunks_normalized(chroma_path, collection_name):
-    """Load all chunks from ChromaDB and pre-normalize each.
-
-    Returns: list of (chunk_id, normalized_text) tuples.
-    Pre-normalizing once means we don't re-normalize 219 chunks for every
-    sentence search.
-    """
+   
     client = chromadb.PersistentClient(path=str(chroma_path))
     coll = client.get_collection(collection_name)
     data = coll.get()
@@ -94,13 +81,7 @@ def find_chunks_containing(normalized_text, normalized_chunks):
 
 
 def match_anchor(anchor_text, normalized_chunks):
-    """Match a single anchor against the chunks via per-sentence search.
-
-    Returns: dict with
-      - "sentences": list of {"text": str, "chunks": list[str]}
-      - "ground_truth_chunks": sorted list of unique chunk IDs (the UNION)
-      - "missing_sentences": int — how many sentences had zero matches
-    """
+   
     sentences = split_into_sentences(anchor_text)
     sentence_results = []
     all_chunks = set()
@@ -122,9 +103,7 @@ def match_anchor(anchor_text, normalized_chunks):
 
 
 def short_id(chunk_id):
-    """Strip 'papers/<paper>.docx: :' prefix for readable console output.
-    The full chunk_id is preserved in the JSON ground truth artifact.
-    """
+  
     if ":" in chunk_id:
         return chunk_id.rsplit(":", 1)[-1].strip()
     return chunk_id
@@ -146,7 +125,7 @@ def run():
     print("PER-ANCHOR RESULTS")
     print("=" * 75)
 
-    ground_truth = {}      # {qid: {"category": N, "anchors": [...]}}
+    ground_truth = {}      
     total_anchors = 0
     fully_matched = 0      # anchors where every sentence found a chunk
     partial_matched = 0    # anchors where SOME sentences matched, some didn't
