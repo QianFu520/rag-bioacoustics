@@ -13,8 +13,6 @@ For each fact-based anchor in ground_truth.json:
 Refusal questions (Category 5) are skipped — they have no anchors and are
 tested separately on Day 5 by the faithfulness check.
 
-Run: python evals/recall_at_k.py  (from project root)
-  or python recall_at_k.py        (from inside evals/)
 """
 import json
 import re
@@ -29,7 +27,7 @@ GROUND_TRUTH_PATH = HERE / "ground_truth.json"
 EVAL_SET_PATH = HERE / "eval_set.md"
 RESULTS_PATH = HERE / "recall_at_k.json"
 
-# retrieve.py lives at project root; make it importable
+
 sys.path.insert(0, str(PROJECT_ROOT))
 from retrieve_hybrid import retrieve
 
@@ -40,10 +38,7 @@ MAX_K = max(K_VALUES)
 
 
 def load_question_texts(eval_set_path):
-    """Parse eval_set.md to extract question text by question ID.
-
-    Returns: {"Q1": "In the Python package noisereduce, how is...", ...}
-    """
+  
     text = eval_set_path.read_text(encoding="utf-8")
     questions = {}
     blocks = re.split(r"\n(?=## Q\d+ — Category)", text)
@@ -59,11 +54,7 @@ def load_question_texts(eval_set_path):
 
 
 def score_anchor(retrieved_chunk_ids, ground_truth_chunk_ids, k):
-    """Score one anchor at one k value.
-
-    Returns: {"any_hit": 0 or 1, "coverage": 0.0–1.0,
-              "n_hit": int, "n_gt": int}
-    """
+  
     topk = set(retrieved_chunk_ids[:k])
     gt = set(ground_truth_chunk_ids)
     hits = topk & gt
@@ -115,7 +106,7 @@ def run():
         # One retrieval call per question — same question text retrieves the
         # same chunks regardless of which anchor we're scoring against.
         results = retrieve(question_text, k=MAX_K)
-        retrieved_ids = results["ids"][0]  # Chroma nests one level for batch
+        retrieved_ids = results["ids"][0]  
 
         for anchor in anchors:
             anchor_idx = anchor["anchor_index"]
@@ -183,7 +174,7 @@ def run():
         line += f"{mean(any_hits):>6.2f} {mean(coverages):>6.2f} | "
     print(line)
 
-    # Save artifact
+    
     artifact = {
         "config": {
             "k_values": K_VALUES,
