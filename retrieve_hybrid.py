@@ -52,9 +52,14 @@ else:
     _bm25_chunk_ids = []
 
 
-def reload_bm25():
-    """Reload BM25 index from disk. Called after build_store.build() populates it."""
-    global _bm25, _bm25_chunk_ids
+def reload():
+    """Reload collection reference and BM25 index after build_store.build().
+
+    build_store.build() deletes and recreates the collection (new UUID), so the
+    module-level _collection reference becomes stale. This refreshes both.
+    """
+    global _collection, _bm25, _bm25_chunk_ids
+    _collection = _client.get_or_create_collection(name=_COLLECTION_NAME)
     with open(_BM25_INDEX_PATH, "rb") as f:
         _bm25_data = pickle.load(f)
     _bm25 = _bm25_data["bm25"]

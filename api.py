@@ -27,7 +27,7 @@ async def lifespan(app: FastAPI):
         print("Collection is empty — building index from papers...")
         from build_store import build
         build()
-        retrieve_hybrid.reload_bm25()
+        retrieve_hybrid.reload()
         print("Index build complete.")
 
     app.state.anthropic = Anthropic()
