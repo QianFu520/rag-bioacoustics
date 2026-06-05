@@ -11,13 +11,14 @@ Architecture:
   3. Fuse the two ranked lists with RRF
   4. Return top-k from the fused ranking
 """
+import os
 import pickle
 from pathlib import Path
 
 import chromadb
 from sentence_transformers import SentenceTransformer
 
-from build_store import tokenize  
+from build_store import tokenize
 
 # --- paths and constants ---
 _HERE = Path(__file__).parent
@@ -33,7 +34,11 @@ K_FETCH = 20
 RRF_K = 60
 
 # --- load both indexes once at import time ---
-_client = chromadb.PersistentClient(path=str(_CHROMA_PATH))
+_chroma_host = os.environ.get("CHROMA_HOST")
+if _chroma_host:
+    _client = chromadb.HttpClient(host=_chroma_host, port=int(os.environ.get("CHROMA_PORT", "8000")))
+else:
+    _client = chromadb.PersistentClient(path=str(_CHROMA_PATH))
 _collection = _client.get_collection(name=_COLLECTION_NAME)
 _model = SentenceTransformer("all-MiniLM-L6-v2")
 

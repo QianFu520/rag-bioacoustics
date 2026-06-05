@@ -1,3 +1,4 @@
+import os
 import pickle
 import re
 from pathlib import Path
@@ -30,7 +31,11 @@ def tokenize(text):
 
 def build():
     """Build ChromaDB collection AND BM25 index from the papers."""
-    client = chromadb.PersistentClient(path="./chroma_db")
+    chroma_host = os.environ.get("CHROMA_HOST")
+    if chroma_host:
+        client = chromadb.HttpClient(host=chroma_host, port=int(os.environ.get("CHROMA_PORT", "8000")))
+    else:
+        client = chromadb.PersistentClient(path="./chroma_db")
     collection_name = "bioacoustics_papers"
     existing = [c.name for c in client.list_collections()]
     if collection_name in existing:
