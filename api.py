@@ -5,7 +5,7 @@ from fastapi import FastAPI, Request
 from pydantic import BaseModel
 
 from generate import build_prompt
-from retrieve_hybrid import retrieve
+import retrieve_hybrid
 
 
 class QueryRequest(BaseModel):
@@ -21,12 +21,17 @@ class QueryResponse(BaseModel):
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # retrieve_hybrid loads the embedding model, ChromaDB client, and BM25 index
-    # at import time above. Anthropic client is cheap but we create it here
-    # to keep all startup work in one place.
+    # If the ChromaDB collection is empty (e.g. fresh Docker container),
+    # build the index from the papers before accepting any requests.
+    if retrieve_hybrid._collection.count() == 0:
+        print("Collection is empty — building index from papers...")
+        from build_store import build
+        build()
+        retrieve_hybrid.reload_bm25()
+        print("Index build complete.")
+
     app.state.anthropic = Anthropic()
     yield
-    # nothing to clean up
 
 
 app = FastAPI(lifespan=lifespan)
@@ -39,7 +44,7 @@ def health():
 
 @app.post("/query", response_model=QueryResponse)
 def query(body: QueryRequest, request: Request):
-    retrieved = retrieve(body.question, k=body.k)
+    retrieved = retrieve_hybrid.retrieve(body.question, k=body.k)
     prompt = build_prompt(body.question, retrieved)
 
     response = request.app.state.anthropic.messages.create(

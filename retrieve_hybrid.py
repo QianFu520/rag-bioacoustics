@@ -39,13 +39,26 @@ if _chroma_host:
     _client = chromadb.HttpClient(host=_chroma_host, port=int(os.environ.get("CHROMA_PORT", "8000")))
 else:
     _client = chromadb.PersistentClient(path=str(_CHROMA_PATH))
-_collection = _client.get_collection(name=_COLLECTION_NAME)
+_collection = _client.get_or_create_collection(name=_COLLECTION_NAME)
 _model = SentenceTransformer("all-MiniLM-L6-v2")
 
-with open(_BM25_INDEX_PATH, "rb") as f:
-    _bm25_data = pickle.load(f)
-_bm25 = _bm25_data["bm25"]
-_bm25_chunk_ids = _bm25_data["chunk_ids"]
+if _BM25_INDEX_PATH.exists():
+    with open(_BM25_INDEX_PATH, "rb") as f:
+        _bm25_data = pickle.load(f)
+    _bm25 = _bm25_data["bm25"]
+    _bm25_chunk_ids = _bm25_data["chunk_ids"]
+else:
+    _bm25 = None
+    _bm25_chunk_ids = []
+
+
+def reload_bm25():
+    """Reload BM25 index from disk. Called after build_store.build() populates it."""
+    global _bm25, _bm25_chunk_ids
+    with open(_BM25_INDEX_PATH, "rb") as f:
+        _bm25_data = pickle.load(f)
+    _bm25 = _bm25_data["bm25"]
+    _bm25_chunk_ids = _bm25_data["chunk_ids"]
 
 
 def _retrieve_semantic(question, k):
@@ -65,6 +78,8 @@ def _retrieve_bm25(question, k):
     """Return list of (chunk_id, rank) tuples from BM25 retrieval.
     Rank starts at 1 (best).
     """
+    if _bm25 is None:
+        return []
     tokenized_query = tokenize(question)
     scores = _bm25.get_scores(tokenized_query)
     # Sort indices by score descending, take top-k
