@@ -1,7 +1,7 @@
 import os
 from anthropic import Anthropic
 from dotenv import load_dotenv
-from retrieve import retrieve
+from retrieve_hybrid import retrieve
 from pathlib import Path
 
 _HERE = Path(__file__).parent
