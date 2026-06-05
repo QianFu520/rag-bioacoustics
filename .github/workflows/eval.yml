@@ -1,0 +1,40 @@
+name: Eval Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build indexes
+        run: python build_store.py
+
+      - name: Match anchors
+        run: python evals/match_anchors.py
+
+      - name: Run recall@k eval
+        run: python evals/recall_at_k.py
+
+      - name: Check recall gate
+        run: python evals/check_recall_gate.py
+
+      - name: Upload recall results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: recall-results
+          path: evals/recall_at_k_*.json
