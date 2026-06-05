@@ -9,7 +9,7 @@ from pathlib import Path
 THRESHOLD = 0.85
 K = 5
 
-recall_files = sorted(Path(__file__).parent.glob("recall_at_k_*.json"))
+recall_files = sorted(Path(__file__).parent.glob("recall_at_k*.json"), key=lambda p: p.stat().st_mtime)
 if not recall_files:
     print("ERROR: no recall_at_k_*.json file found. Run recall_at_k.py first.")
     sys.exit(1)
