@@ -1,6 +1,6 @@
 # RAG Bioacoustics
 
-Retrieval-augmented generation over three bioacoustics research papers, with an evaluation framework that measured three documented iterations of retrieval improvements — including one negative result. Extended with a FastAPI service, Docker deployment, GitHub Actions CI eval gate, and a LangGraph agentic retrieval layer.
+Retrieval-augmented generation over three bioacoustics research papers, with an evaluation framework that measured four documented iterations of retrieval and agentic improvements — including two negative results. Extended with a FastAPI service, Docker deployment, GitHub Actions CI eval gate, and a LangGraph agentic retrieval layer.
 
 **[Live demo](https://qianfu-rag-bioacoustics.streamlit.app/) · [How it works](#architecture) · [Results](#results)**
 
