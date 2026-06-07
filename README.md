@@ -12,17 +12,17 @@ This question was a documented failure case in baseline retrieval — the releva
 
 ## Results
 
-- **Overall recall@5 coverage: 0.60 → 0.88** across three retrieval iterations (chunk size, chunk overlap, hybrid retrieval).
-- **Faithfulness held at 0.98** across all iterations (LLM-as-judge over 24 questions; documented limitation on Q17).
+- **Overall recall@5 coverage: 0.60 → 0.88** across three retrieval iterations (chunk size, chunk overlap, hybrid retrieval). A fourth agentic iteration (LangGraph query routing) achieved parity with the hybrid baseline.
+- **Faithfulness held at 0.98** across all retrieval iterations (LLM-as-judge over 24 questions; documented limitation on Q17).
 - **24-question evaluation suite** spanning 5 question categories: single-fact, synthesis, cross-doc, numerical, and refusal — with 29 of 30 retrieval anchors fully matched to ground-truth chunks (one documented Unicode-math limitation).
 
-Iteration 2 was a negative result — chunk overlap regressed coverage and was reverted. The eval framework caught this directly via per-anchor analysis, not just aggregate metrics. Full per-iteration details in [`evals/ITERATION.md`](evals/ITERATION.md).
+Iterations 2 and 4 were negative results — both caught and documented by the eval framework. Full per-iteration details in [`evals/ITERATION.md`](evals/ITERATION.md).
 
 ## What this project is
 
 A retrieval-augmented generation system over three open-access research papers in bioacoustics: a neuroethology review, the OpenSoundscape methods paper, and the AudioMoth deployment paper. Given a question, the system retrieves the most relevant passages from the corpus and uses them to generate a grounded answer with citations — refusing to answer when the passages don't contain enough information.
 
-The project's emphasis is not the RAG pipeline itself, which uses standard components (sentence-transformers, ChromaDB, BM25, Claude Haiku). The emphasis is the **evaluation framework built alongside it**: a hand-curated 24-question eval set with verified ground-truth chunks, recall@k metrics with both hit and coverage scoring, LLM-as-judge faithfulness evaluation, and an explicit refusal handling. The framework was used to measure three iterations of retrieval improvements — including a documented negative result that was caught by per-anchor analysis.
+The project's emphasis is not the RAG pipeline itself, which uses standard components (sentence-transformers, ChromaDB, BM25, Claude Haiku). The emphasis is the **evaluation framework built alongside it**: a hand-curated 24-question eval set with verified ground-truth chunks, recall@k metrics with both hit and coverage scoring, LLM-as-judge faithfulness evaluation, and an explicit refusal handling. The framework was used to measure four iterations — three retrieval (chunk size, overlap, hybrid) and one agentic (LangGraph routing) — including two documented negative results caught by per-anchor and per-category analysis.
 
 ## Architecture
 
@@ -129,7 +129,9 @@ The `/query/agentic` endpoint and `rag_graph.py` remain in the codebase as a wor
 
 **Iteration 2: chunk overlap 0 → 200 (reverted).** The hypothesis: overlap would let boundary content appear in both adjacent chunks, extending consolidation. Instead, coverage *regressed* — overall cov@5 dropped from 0.77 back to 0.65. Per-anchor analysis revealed the mechanism: overlap blended neighboring content into each chunk's embedding, diluting the semantic distinctiveness that drove Iter 1's gains. Identical any@5 numbers to baseline across every category confirmed this wasn't noise — ranking quality had returned to baseline. Faithfulness also dropped (a real generation error on Q15 that the eval framework caught). Reverted to Iter 1 config.
 
-**Iteration 3: hybrid retrieval (BM25 + semantic, RRF fusion).** Iter 2 revealed that residual cross-doc failures were ranking-bound, not chunking-bound — the right chunks existed but couldn't reach the top-5 via semantic similarity alone. Adding BM25 as a complementary retriever and fusing both rankings via reciprocal rank fusion moved overall cov@5 from 0.77 to 0.88. The primary ranking-bound failure (Q16 a1) recovered fully. Three other cross-doc failures (Q14 a1, Q14 a2, Q15 a2) did *not* recover, and inspection of what hybrid retrieved revealed a third failure mode: query-document vocabulary mismatch, where the question asks about a concept ("practical constraints") while the answer chunks use specific technical vocabulary ("depthwise separable convolution"). Neither lexical nor dense similarity bridges that gap. The natural next step would be query expansion or HyDE.
+**Iteration 3: hybrid retrieval (BM25 + semantic, RRF fusion).** Iter 2 revealed that residual cross-doc failures were ranking-bound, not chunking-bound — the right chunks existed but couldn't reach the top-5 via semantic similarity alone. Adding BM25 as a complementary retriever and fusing both rankings via reciprocal rank fusion moved overall cov@5 from 0.77 to 0.88. The primary ranking-bound failure (Q16 a1) recovered fully. Three other cross-doc failures (Q14 a1, Q14 a2, Q15 a2) did *not* recover, and inspection of what hybrid retrieved revealed a third failure mode: query-document vocabulary mismatch, where the question asks about a concept ("practical constraints") while the answer chunks use specific technical vocabulary ("depthwise separable convolution"). Neither lexical nor dense similarity bridges that gap.
+
+**Iteration 4: LangGraph agentic routing (parity with baseline).** A LangGraph layer was added on top of hybrid retrieval: a Claude Haiku router classifies each question as simple or complex; complex questions are decomposed into sub-questions, each retrieved independently, then merged and re-ranked before generation. Two attempts were run. Attempt 1 regressed overall cov@5 from 0.88 to 0.73 due to router misclassification of synthesis questions and an unranked merge discarding relevance order. Attempt 2 fixed both bugs — synthesis recovered fully and cross-doc recovered to baseline — but overall cov@5 remained 0.88, identical to the hybrid baseline. The re-ranking step (by the original question's hybrid score) collapses sub-question diversity back to what direct hybrid retrieval returns. The agentic architecture is correct and demonstrably functional; it does not improve recall on this corpus.
 
 Full per-iteration analysis with predictions, results, and refined diagnoses in [`evals/ITERATION.md`](evals/ITERATION.md).
 
@@ -194,7 +196,7 @@ The build script chunks the three papers, creates MiniLM embeddings stored in Ch
 
 **Three cross-doc retrieval failures remain unrecovered.** Q14 a1, Q14 a2, and Q15 a2 — described in The iteration story (Iter 3) — represent a query-document vocabulary mismatch that neither lexical nor dense retrieval bridges. The right next intervention is query expansion or HyDE, neither of which this project implements.
 
-**Q17 faithfulness shows reproducible judge variance.** Across four eval runs (baseline, iter 1, iter 2, iter 3), the Q17 generated answer consistently returns a partially-supported verdict from the judge. The judge's specific concern (whether the cited metrics attribute explicitly to the soprano pipistrelle dataset) is at the boundary of LLM-as-judge reliability for this kind of claim. The pattern is documented as judge variance, not a generation regression.
+**Q17 faithfulness shows reproducible judge variance.** Across all retrieval eval runs (baseline, iter 1, iter 2, iter 3), the Q17 generated answer consistently returns a partially-supported verdict from the judge. The judge's specific concern (whether the cited metrics attribute explicitly to the soprano pipistrelle dataset) is at the boundary of LLM-as-judge reliability for this kind of claim. The pattern is documented as judge variance, not a generation regression.
 
 **Q11 anchor 2 has a documented Unicode-math limitation.** One sentence in the anchor contains Unicode mathematical notation (𝒪⁢(𝐿)) that the matcher's normalizer can't reliably handle. This is 1 of 30 anchors; documented in [`evals/NORMALIZER_NOTES.md`](evals/NORMALIZER_NOTES.md).
 
