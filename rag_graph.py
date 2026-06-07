@@ -41,8 +41,15 @@ class RAGState(TypedDict):
 def route_query(state: RAGState) -> RAGState:
     prompt = f"""Classify this question as either "simple" or "complex".
 
-- simple: asks about one topic from one source (e.g. "What is AudioMoth?")
-- complex: comparative, multi-part, or spans multiple papers/topics (e.g. "Compare X and Y", "How do both X and Y...", "What are the differences between...")
+- simple: asks about one topic or one tool, even if multi-sentence or detailed
+  Examples: "What is AudioMoth?", "How does OpenSoundscape handle CNN training?",
+  "What methods does OpenSoundscape provide for signal processing?"
+- complex: explicitly compares two or more tools/papers, or asks for differences between them
+  Examples: "Compare AudioMoth and OpenSoundscape", "How do AudioMoth and OpenSoundscape differ?",
+  "What are the differences between X and Y?"
+
+Only classify as complex if the question explicitly asks for a comparison across multiple sources.
+When in doubt, classify as simple.
 
 Question: {state["question"]}
 
@@ -217,6 +224,19 @@ def retrieve_agentic(question: str, k: int = 10) -> dict:
                 merged_ids.append(cid)
                 merged_docs.append(doc)
                 merged_metas.append(meta)
+
+    # Re-rank merged pool by hybrid score on the original question.
+    # Appearance order (sub-q 1 first, sub-q 2 second) is arbitrary;
+    # this restores relevance ordering so scoring at small k is meaningful.
+    ranking = retrieve_hybrid.retrieve(question, k=20)
+    rank_order = {cid: rank for rank, cid in enumerate(ranking["ids"][0])}
+    merged = sorted(
+        zip(merged_ids, merged_docs, merged_metas),
+        key=lambda x: rank_order.get(x[0], len(rank_order)),
+    )
+    merged_ids = [m[0] for m in merged]
+    merged_docs = [m[1] for m in merged]
+    merged_metas = [m[2] for m in merged]
 
     return {
         "ids": [merged_ids],
