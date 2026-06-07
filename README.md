@@ -1,6 +1,6 @@
 # RAG Bioacoustics
 
-Retrieval-augmented generation over three bioacoustics research papers, with an evaluation framework that measured three documented iterations of retrieval improvements — including one negative result.
+Retrieval-augmented generation over three bioacoustics research papers, with an evaluation framework that measured three documented iterations of retrieval improvements — including one negative result. Extended with a FastAPI service, Docker deployment, GitHub Actions CI eval gate, and a LangGraph agentic retrieval layer.
 
 **[Live demo](https://qianfu-rag-bioacoustics.streamlit.app/) · [How it works](#architecture) · [Results](#results)**
 
@@ -65,6 +65,64 @@ graph TD
 
 The dashed arrow into the anchor matcher shows that the eval pipeline reads the same chunks the production pipeline uses — the eval framework verifies retrieval *on the actual production corpus*, not a separate test fixture.
 
+## Extensions
+
+Four additions built on top of the core RAG pipeline.
+
+### FastAPI service
+
+`api.py` wraps the pipeline as a REST API with two endpoints:
+
+- **`POST /query`** — direct hybrid retrieval. Takes a question and optional `k`, returns `answer`, `citations`, and `chunks`.
+- **`POST /query/agentic`** — LangGraph graph (see below). Same inputs; additionally returns `route` and `sub_questions`.
+
+```bash
+uvicorn api:app --reload
+curl -X POST http://localhost:8000/query \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is the detection range of the AudioMoth gunshot algorithm?"}'
+```
+
+The API uses FastAPI's lifespan context manager to load the ChromaDB collection and Anthropic client once at startup. On a fresh container with an empty collection, the startup handler builds the index automatically before accepting requests.
+
+### Docker
+
+`Dockerfile` and `docker-compose.yml` run the FastAPI app and ChromaDB as separate containers:
+
+```bash
+docker compose up --build
+```
+
+The app container sets `CHROMA_HOST=chromadb` to connect to the ChromaDB container via `HttpClient` rather than `PersistentClient`. The same code runs locally with a local `PersistentClient` (no `CHROMA_HOST` set). ChromaDB is exposed on host port 8001; the app on 8000.
+
+### GitHub Actions CI
+
+`.github/workflows/eval.yml` runs the recall@k eval on every push to `main`:
+
+1. Build the BM25 and ChromaDB indexes from the source papers
+2. Run the anchor matcher to confirm ground-truth chunks
+3. Run `evals/recall_at_k.py` and save the result
+4. Check the gate: fail the build if overall `cov@5 < 0.85`
+
+The gate uses no LLM calls — recall@k is deterministic and free to run in CI. The artifact (`recall_at_k.json`) is uploaded on every run. The 0.85 threshold is below the current production score (0.88), so the gate fires on real regressions, not noise.
+
+### LangGraph agentic layer
+
+`rag_graph.py` adds an agentic retrieval path via LangGraph's `StateGraph`:
+
+```
+route_query → [simple] → retrieve → generate
+             [complex] → decompose → retrieve_multi → generate
+```
+
+The router (Claude Haiku) classifies questions as simple (one topic) or complex (comparative, multi-paper). Complex questions are decomposed into 2–3 sub-questions, each retrieved independently, then merged and re-ranked by hybrid score on the original question before generation.
+
+**Measured result:** overall `cov@5 = 0.88` — identical to the hybrid baseline. The architecture is correct and the routing fires as expected, but re-ranking the merged pool by the original question's hybrid score collapses the result back to what direct hybrid retrieval returns. The agentic layer adds two LLM calls per complex question without improving recall. Full analysis in [`evals/ITERATION.md`](evals/ITERATION.md) (Iteration 4, attempts 1 and 2).
+
+The `/query/agentic` endpoint and `rag_graph.py` remain in the codebase as a working demonstration of agentic RAG design.
+
+---
+
 ## The iteration story
 
 **Iteration 1: chunk size 800 → 1200.** Baseline retrieval used 800-character chunks. Several anchor sentences spanned chunk boundaries, splitting their information across multiple chunks and degrading retrieval quality. Increasing chunk size to 1200 consolidated most multi-sentence anchors into single chunks. Overall recall@5 coverage moved 0.60 → 0.77. Synthesis questions saw the largest gain (cov@5 0.54 → 0.79), confirming that consolidation was the dominant effect.
@@ -93,30 +151,44 @@ The framework was developed alongside the RAG pipeline and applied to each itera
 
 ## Reproducing the project
 
+**Local (Streamlit demo):**
+
 ```bash
-# Clone
 git clone https://github.com/QianFu520/rag-bioacoustics.git
 cd rag-bioacoustics
-
-# Install dependencies (Python 3.12)
 pip install -r requirements.txt
-
-# Set up the Anthropic API key
 echo "ANTHROPIC_API_KEY=your-key-here" > .env
-
-# Build the chunks, embeddings, and BM25 index
 python build_store.py
-
-# (Optional) Run the eval framework
-python evals/match_anchors.py
-python evals/recall_at_k.py
-python evals/faithfulness.py
-
-# (Optional) Run the Streamlit demo locally
 streamlit run app.py
 ```
 
-The build script chunks the three papers, creates MiniLM embeddings stored in ChromaDB, and builds a BM25 index — all in ~30 seconds on a modern laptop. The eval framework runs in another ~1 minute total; faithfulness uses Claude Haiku API calls (~$0.10 per full run).
+**Local (FastAPI):**
+
+```bash
+python build_store.py          # build indexes if not already built
+uvicorn api:app --reload       # serves on http://localhost:8000
+# POST /query or /query/agentic
+```
+
+**Docker:**
+
+```bash
+echo "ANTHROPIC_API_KEY=your-key-here" > .env
+docker compose up --build
+# app on http://localhost:8000, ChromaDB on http://localhost:8001
+# indexes are built automatically on first startup if the collection is empty
+```
+
+**Eval framework:**
+
+```bash
+python evals/match_anchors.py          # verify ground-truth chunk mapping
+python evals/recall_at_k.py            # hybrid baseline recall@k
+python evals/recall_at_k.py --agentic  # agentic path recall@k
+python evals/faithfulness.py           # LLM-as-judge (~$0.10 per full run)
+```
+
+The build script chunks the three papers, creates MiniLM embeddings stored in ChromaDB, and builds a BM25 index — all in ~30 seconds on a modern laptop.
 
 ## Known limitations
 
@@ -143,8 +215,12 @@ Full normalizer behavior and judge prompt design in [`evals/NORMALIZER_NOTES.md`
 - **Vector store:** ChromaDB
 - **Lexical retrieval:** rank-bm25
 - **Generation and judging:** Anthropic SDK (Claude Haiku 4.5)
+- **REST API:** FastAPI + uvicorn
+- **Agentic layer:** LangGraph (`StateGraph`, conditional edges)
+- **Containerization:** Docker + docker-compose
+- **CI:** GitHub Actions (recall@k eval gate)
 - **UI / demo:** Streamlit
 - **Data display:** pandas
 - **Deployment:** Streamlit Cloud (free tier)
 
-Full pinned versions in [`requirements.txt`](requirements.txt).
+Full dependency versions in [`requirements.txt`](requirements.txt).
