@@ -26,10 +26,18 @@ PROJECT_ROOT = HERE.parent
 GROUND_TRUTH_PATH = HERE / "ground_truth.json"
 EVAL_SET_PATH = HERE / "eval_set.md"
 RESULTS_PATH = HERE / "recall_at_k.json"
-
+RESULTS_AGENTIC_PATH = HERE / "recall_at_k_agentic.json"
 
 sys.path.insert(0, str(PROJECT_ROOT))
-from retrieve_hybrid import retrieve
+from retrieve_hybrid import retrieve as retrieve_hybrid
+
+AGENTIC = "--agentic" in sys.argv
+if AGENTIC:
+    from rag_graph import retrieve_agentic
+    retrieve = retrieve_agentic
+    RESULTS_PATH = RESULTS_AGENTIC_PATH
+else:
+    retrieve = retrieve_hybrid
 
 # k values to measure. We retrieve at the largest k once and score at all
 # three from the same result, so this is essentially free.

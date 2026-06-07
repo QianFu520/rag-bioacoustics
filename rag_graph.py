@@ -188,6 +188,43 @@ def run(question: str) -> dict:
     }
 
 
+def retrieve_agentic(question: str, k: int = 10) -> dict:
+    """Retrieval-only path through the graph — for eval measurement.
+
+    Routes the question, decomposes if complex, retrieves per sub-question,
+    and merges. Returns the same dict format as retrieve_hybrid.retrieve().
+    """
+    route_result = route_query({"question": question})
+    route = route_result["route"]
+
+    if route == "simple":
+        return retrieve_hybrid.retrieve(question, k=k)
+
+    decompose_result = decompose({"question": question})
+    sub_questions = decompose_result["sub_questions"]
+
+    seen_ids = set()
+    merged_ids, merged_docs, merged_metas = [], [], []
+    for sub_q in sub_questions:
+        results = retrieve_hybrid.retrieve(sub_q, k=k)
+        for cid, doc, meta in zip(
+            results["ids"][0],
+            results["documents"][0],
+            results["metadatas"][0],
+        ):
+            if cid not in seen_ids:
+                seen_ids.add(cid)
+                merged_ids.append(cid)
+                merged_docs.append(doc)
+                merged_metas.append(meta)
+
+    return {
+        "ids": [merged_ids],
+        "documents": [merged_docs],
+        "metadatas": [merged_metas],
+    }
+
+
 if __name__ == "__main__":
     simple_q = "What is AudioMoth?"
     complex_q = "Compare the field deployment approaches of AudioMoth and OpenSoundscape."
