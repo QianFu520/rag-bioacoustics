@@ -562,3 +562,146 @@ correctly characterized the system's performance across three
 distinct interventions — chunking-structural (iter 1 helped),
 chunking-overlap (iter 2 hurt), and hybrid retrieval (iter 3 helped,
 but with refined diagnosis of the remaining failures).
+
+---
+
+## Iteration 4 — Agentic retrieval: LangGraph query routing with decomposition (attempt 1)
+
+### Motivation from iteration 3
+
+Iteration 3 identified three residual cross-doc failures (Q14 a1, Q14 a2,
+Q15 a2) as vocabulary-gap problems: the question and the answer chunk use
+disjoint vocabulary at different abstraction levels. Neither BM25 nor dense
+semantic retrieval bridges this gap because there is no shared vocabulary
+to exploit lexically, and the abstraction difference is too large for
+MiniLM's 384-dim embeddings to close.
+
+Iter 3's writeup identified query expansion and HyDE as candidate
+interventions. A different angle: query decomposition. Rather than
+rewriting the question at the same level of abstraction, decompose it
+into focused sub-questions — one per paper or topic — and retrieve each
+independently. Each sub-question is more targeted, potentially surfacing
+chunks that a single monolithic query misses.
+
+This iteration adds a LangGraph agentic layer on top of the hybrid retriever.
+It does not change chunking or the retrieval mechanism itself; it changes
+how queries enter the retrieval pipeline.
+
+### Hypothesis
+
+A router (Claude Haiku) classifies each question as simple (one topic,
+one paper) or complex (comparative, multi-part, spans multiple papers).
+Simple questions go directly to hybrid retrieval — unchanged behavior.
+Complex questions are decomposed into 2–3 focused sub-questions, each
+retrieved independently against the hybrid index, with results merged
+and deduplicated before generation.
+
+**Predicted effect:** cross-doc coverage rises from 0.62 toward 0.75+,
+driven by recovery of Q14 a1, Q14 a2, Q15 a2. Simple/synthesis/numerical
+categories hold flat — they route as "simple" and follow the unchanged
+path. Overall coverage rises from 0.88 toward 0.90+.
+
+### What changed
+
+Three new components:
+
+1. **`rag_graph.py`** — LangGraph graph with five nodes: `route_query`
+   (Claude Haiku classifies simple/complex), `decompose` (Claude Haiku
+   breaks complex questions into numbered sub-questions), `retrieve`
+   (single hybrid retrieval for simple path), `retrieve_multi` (per-sub-
+   question hybrid retrieval with deduplication, capped at 8 merged chunks),
+   and `generate` (same prompt as the existing pipeline). Conditional edges
+   route simple questions to `retrieve → generate` and complex questions
+   to `decompose → retrieve_multi → generate`.
+
+2. **`api.py`** — added `POST /query/agentic` endpoint alongside the existing
+   `POST /query`. The direct endpoint is unchanged. The agentic endpoint runs
+   the full LangGraph graph and returns route, sub-questions, answer, and
+   citations.
+
+3. **`evals/recall_at_k.py`** — added `--agentic` flag. When set, retrieval
+   calls route through `rag_graph.retrieve_agentic()` (routing + optional
+   decomposition) instead of `retrieve_hybrid.retrieve()` directly. Output
+   writes to `recall_at_k_agentic.json` to avoid overwriting the baseline.
+
+Chunking unchanged: same 141 chunks, `target_size=1200, overlap=0`. Ground
+truth unchanged: same anchors mapped to same chunk IDs as iter 3.
+
+### Recall@k results
+
+**Comparison at k=5 (agentic attempt 1 vs. iter 3 hybrid baseline):**
+
+| Category | Iter 3 hybrid any@5 | Agentic any@5 | Iter 3 hybrid cov@5 | Agentic cov@5 |
+|---|---|---|---|---|
+| Single-fact (n=6) | 1.00 | 1.00 (=) | 1.00 | 1.00 (=) |
+| Synthesis (n=12) | 1.00 | 0.75 (-0.25) | 0.96 | 0.71 (-0.25) |
+| Cross-doc (n=8) | 0.62 | 0.50 (-0.12) | 0.62 | 0.44 (-0.18) |
+| Numerical (n=4) | 1.00 | 1.00 (=) | 1.00 | 1.00 (=) |
+| **Overall** | **0.90** | **0.77 (-0.13)** | **0.88** | **0.73 (-0.15)** |
+
+All predictions failed. Overall coverage dropped from 0.88 to 0.73.
+Cross-doc dropped from 0.62 to 0.44 — the opposite of the prediction.
+The agentic layer made retrieval worse across every non-ceiling category.
+
+### Failure mode analysis
+
+Two distinct mechanisms drove the regression:
+
+**1. Router misclassification of synthesis questions.** Synthesis questions
+(category 2) ask about a single paper but can sound multi-part ("What
+methods does OpenSoundscape use for both CNN and signal-processing
+tasks?"). The router classified several synthesis questions as "complex,"
+triggering unnecessary decomposition. Decomposed sub-questions introduced
+retrieval targets that didn't match the actual ground-truth chunks,
+pulling irrelevant chunks into the merged result and pushing correct
+chunks out of the scored top-k. Synthesis cov@5 dropped from 0.96 to
+0.71 — a category that was nearly at ceiling regressed significantly.
+
+**2. Unranked merge hurts scoring at small k.** For complex-routed
+questions, `retrieve_multi` merges chunks from each sub-question by
+appearance order: sub-question 1's chunks first, then sub-question 2's
+new chunks. The merged list is not re-ranked by relevance. When
+`recall_at_k.py` scores at k=5, it takes `retrieved_ids[:5]` — the
+first 5 entries in appearance order. Ground-truth chunks that appear in
+sub-question 2's results (positions 6–8 in the merged list) are counted
+as misses at k=5 even though they were retrieved. The hybrid retriever
+returns a ranked list by RRF score; the agentic merger discards that
+ranking. This is the dominant failure mode for cross-doc at k=3 and k=5.
+
+### Why cross-doc got worse, not better
+
+The vocabulary-gap failures (Q14 a1, Q14 a2, Q15 a2) require the
+sub-questions to use the *answer's* vocabulary — "depthwise separable
+convolution," "gunshot detection" — not the question's abstract framing
+("practical hardware constraints," "non-biological detection events").
+The decomposer (Claude Haiku) generated sub-questions that paraphrase
+the original question at the same abstraction level, not at the chunk's
+vocabulary level. The vocabulary gap was not bridged; the queries that
+entered retrieval remained semantically distant from the target chunks.
+
+Additionally, the unranked merge (failure mode 2) meant that even
+when sub-question retrieval found a cross-doc chunk, it might not
+appear in the top-5 scored slice.
+
+### Decision
+
+Do not adopt this version of the agentic layer. The regression on synthesis
+(−0.25) and cross-doc (−0.18) is real and large. The agentic layer adds
+two LLM calls per complex question (router + decomposer) and produces
+worse retrieval than the direct hybrid baseline.
+
+Two targeted fixes are identified for attempt 2:
+
+1. **Re-rank merged chunks by relevance** before returning from
+   `retrieve_agentic`. After merging, score each chunk against the
+   original question using the hybrid retriever's RRF scoring and
+   return the top-k by that score. This eliminates the appearance-order
+   bias in scoring.
+
+2. **Tighten the router prompt** with examples from the actual eval set
+   (synthesis questions that should route as "simple") to reduce
+   misclassification.
+
+Attempt 2 is the next experiment. Whether it recovers the regression
+will determine whether the agentic layer earns its place above the
+hybrid baseline.
