@@ -6,6 +6,7 @@ from pydantic import BaseModel
 
 from generate import build_prompt
 import retrieve_hybrid
+from rag_graph import run as graph_run
 
 
 class QueryRequest(BaseModel):
@@ -15,6 +16,14 @@ class QueryRequest(BaseModel):
 
 class QueryResponse(BaseModel):
     answer: str
+    citations: list[str]
+    chunks: list[str]
+
+
+class AgenticQueryResponse(BaseModel):
+    answer: str
+    route: str
+    sub_questions: list[str]
     citations: list[str]
     chunks: list[str]
 
@@ -58,3 +67,9 @@ def query(body: QueryRequest, request: Request):
     chunks = retrieved["documents"][0]
 
     return QueryResponse(answer=answer_text, citations=citations, chunks=chunks)
+
+
+@app.post("/query/agentic", response_model=AgenticQueryResponse)
+def query_agentic(body: QueryRequest):
+    result = graph_run(body.question)
+    return AgenticQueryResponse(**result)
