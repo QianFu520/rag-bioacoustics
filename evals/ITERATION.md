@@ -705,3 +705,109 @@ Two targeted fixes are identified for attempt 2:
 Attempt 2 is the next experiment. Whether it recovers the regression
 will determine whether the agentic layer earns its place above the
 hybrid baseline.
+
+---
+
+## Iteration 4 — Agentic retrieval: LangGraph query routing with decomposition (attempt 2)
+
+### Motivation from attempt 1
+
+Attempt 1 identified two specific failure mechanisms: router misclassification
+of synthesis questions (triggering unnecessary decomposition), and unranked
+merge discarding relevance ordering from the hybrid retriever. Two targeted
+fixes were designed:
+
+1. **Re-rank merged chunks by original question.** After merging sub-question
+   results, run hybrid retrieval on the original question at k=20 and sort the
+   merged pool by that ranking. Eliminates appearance-order bias.
+
+2. **Tighten the router prompt.** Add explicit examples of synthesis questions
+   (single-paper, multi-part) that should route as "simple." Add the instruction
+   "when in doubt, classify as simple."
+
+### What changed
+
+Two changes to `rag_graph.py`, no other files:
+
+1. In `retrieve_agentic()`: after merging, call
+   `retrieve_hybrid.retrieve(question, k=20)` and sort the merged list by the
+   resulting rank order. Chunks that don't appear in the top-20 rank last.
+
+2. In `route_query()`: added concrete examples of simple (synthesis) and complex
+   (comparative) questions to the prompt, and added "when in doubt, classify as
+   simple."
+
+### Recall@k results
+
+**Comparison at k=5 (attempt 2 vs. attempt 1 vs. iter 3 hybrid baseline):**
+
+| Category | Iter 3 baseline cov@5 | Attempt 1 cov@5 | Attempt 2 cov@5 |
+|---|---|---|---|
+| Single-fact (n=6) | 1.00 | 1.00 (=) | 1.00 (=) |
+| Synthesis (n=12) | 0.96 | 0.71 (-0.25) | **0.96 (+0.25, recovered)** |
+| Cross-doc (n=8) | 0.62 | 0.44 (-0.18) | **0.62 (+0.18, recovered)** |
+| Numerical (n=4) | 1.00 | 1.00 (=) | 1.00 (=) |
+| **Overall** | **0.88** | **0.73 (-0.15)** | **0.88 (=)** |
+
+Both fixes worked as designed. Synthesis recovered fully from 0.71 to 0.96.
+Cross-doc recovered from 0.44 to 0.62. Overall coverage returned to 0.88 —
+identical to the hybrid baseline.
+
+### Why the result equals baseline, not exceeds it
+
+Manual inspection confirmed the router fires correctly — comparative cross-doc
+questions are classified as "complex" and go through decomposition. The complex
+path runs. But the re-ranking step explains why the result equals baseline:
+
+After merging sub-question results, `retrieve_agentic` re-ranks the merged pool
+by running `retrieve_hybrid.retrieve(original_question, k=20)`. This re-ranking
+sorts the merged chunks into the same order that direct hybrid retrieval on the
+original question would produce. The top-k slice after re-ranking is therefore
+nearly identical to what the baseline would return without any decomposition.
+
+The decomposition adds breadth (the merged pool contains more unique chunks
+across sub-topics), but the re-ranking step collapses that breadth back to the
+baseline's relevance ordering. The two operations cancel each other.
+
+The vocabulary-gap failures (Q14 a1, Q14 a2, Q15 a2) are unchanged: the
+decomposer generates sub-questions at the same abstraction level as the original
+question, not at the chunk's vocabulary level. The gap between question
+vocabulary and answer vocabulary remains.
+
+### Reading the result
+
+**What the fixes accomplished.** The two attempt-1 bugs are confirmed and
+corrected. Synthesis no longer regresses — the tightened router correctly
+identifies single-paper synthesis questions as "simple" and routes them
+unchanged. The unranked-merge bias is gone — re-ranking restores relevance
+order. The agentic layer no longer hurts.
+
+**What the agentic layer does not accomplish.** It does not improve on the
+hybrid baseline. The LangGraph architecture — StateGraph, conditional routing,
+query decomposition, multi-step retrieval — is correctly implemented and
+demonstrably functional. But for this corpus and retrieval setup, the hybrid
+retriever is already strong enough that the added complexity yields no metric
+gain.
+
+**Architectural lesson.** Re-ranking the merged pool by the original question
+makes the complex path conservative — it recovers the benefit of baseline
+but cannot exceed it. An alternative design (keeping sub-question ranking
+diversity rather than re-ranking by the original question) might exceed
+baseline, but would reintroduce the appearance-order scoring problem at small k.
+There is a real tension between diversity (keep sub-question rankings) and
+relevance ordering (re-rank by original question), and attempt 2 resolves it
+in favor of relevance, which produces parity.
+
+### Decision
+
+The agentic layer in its current form achieves parity with the hybrid baseline
+at the cost of 2 additional LLM calls per complex question (router + decomposer).
+It is not adopted as a retrieval improvement. The vocabulary-gap failures
+(Q14 a1, Q14 a2, Q15 a2) remain unresolved — they require a query-side
+intervention (HyDE or query expansion) that changes the vocabulary entering
+retrieval, not a routing or merging change.
+
+The LangGraph extension is retained as an architectural layer: `rag_graph.py`
+and the `/query/agentic` API endpoint remain in the codebase as a working
+demonstration of agentic RAG design, even though the retrieval metrics do not
+improve over hybrid.
