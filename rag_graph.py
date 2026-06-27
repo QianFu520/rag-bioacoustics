@@ -22,10 +22,6 @@ client = Anthropic()
 MAX_MERGED_CHUNKS = 8
 
 
-# ---------------------------------------------------------------------------
-# State
-# ---------------------------------------------------------------------------
-
 class RAGState(TypedDict):
     question: str
     route: str                   # "simple" | "complex"
@@ -33,10 +29,6 @@ class RAGState(TypedDict):
     retrieved_chunks: dict
     answer: str
 
-
-# ---------------------------------------------------------------------------
-# Nodes
-# ---------------------------------------------------------------------------
 
 def route_query(state: RAGState) -> RAGState:
     prompt = f"""Classify this question as either "simple" or "complex".
@@ -140,17 +132,9 @@ def generate_node(state: RAGState) -> RAGState:
     return {"answer": response.content[0].text}
 
 
-# ---------------------------------------------------------------------------
-# Routing function
-# ---------------------------------------------------------------------------
-
 def decide_path(state: RAGState) -> str:
     return state["route"]
 
-
-# ---------------------------------------------------------------------------
-# Build graph
-# ---------------------------------------------------------------------------
 
 def build_graph():
     graph = StateGraph(RAGState)
@@ -178,10 +162,6 @@ def build_graph():
 
 rag_graph = build_graph()
 
-
-# ---------------------------------------------------------------------------
-# Public interface
-# ---------------------------------------------------------------------------
 
 def run(question: str) -> dict:
     """Run a question through the agentic graph. Returns answer + metadata."""

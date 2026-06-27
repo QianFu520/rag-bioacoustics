@@ -10,7 +10,6 @@ collection = client.get_collection(name = "bioacoustics_papers")
 # use the same embed model
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-## create the retrieve function
 def retrieve(question, k=3):
     "return the top k most relevant chunks for a question"
     query_vector = model.encode([question])

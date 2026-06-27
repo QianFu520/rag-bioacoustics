@@ -36,13 +36,11 @@ def chunk_by_sentences(text, target_size, overlap=0):
         else:
             if current:
                 chunks.append(current)
-                # Seed the next chunk with overlap from the just-finished one
                 if overlap > 0:
                     tail = _tail_sentences_for_overlap(current, overlap)
                     current = " ".join(tail)
                 else:
                     current = ""
-            # Now add the sentence that triggered the boundary
             if len(current) + len(s) <= target_size:
                 current = (current + " " + s).strip()
             else:

@@ -140,7 +140,7 @@ def run():
                 "anchor_index": anchor_idx,
                 "n_ground_truth": len(gt_chunks),
                 "ground_truth_chunks": gt_chunks,
-                "retrieved_top_k": retrieved_ids,  # full top-10, for Day 6 forensics
+                "retrieved_top_k": retrieved_ids,
                 "scores": {str(k): scores_by_k[k] for k in K_VALUES},
             })
 

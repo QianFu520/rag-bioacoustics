@@ -82,7 +82,6 @@ def parse_judge_response(response_text):
 
     Defensive: even with strict prompt, models sometimes add stray characters.
     """
-    # Try direct JSON parse first
     try:
         return json.loads(response_text.strip())
     except json.JSONDecodeError:
@@ -153,10 +152,7 @@ def run():
         category = q["category"]
         question = q["question"]
 
-        # production pipeline (retrieve + generate) — what the user would see
         answer_text, retrieved = answer(question, k=RAG_K, return_chunks=True)
-
-        #judge
         judgment = judge_faithfulness(question, retrieved, answer_text)
 
         # Print one line per question

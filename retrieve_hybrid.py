@@ -26,8 +26,6 @@ _CHROMA_PATH = _HERE / "chroma_db"
 _BM25_INDEX_PATH = _HERE / "bm25_index.pkl"
 _COLLECTION_NAME = "bioacoustics_papers"
 
-# How many candidates each retriever fetches before fusion.
-
 K_FETCH = 20
 
 # RRF constant. The standard value from the 2009 paper; rarely tuned.
@@ -115,8 +113,6 @@ def retrieve(question, k=3):
     fused_ids = _reciprocal_rank_fusion([semantic_results, bm25_results])
     top_ids = fused_ids[:k]
 
-    # Fetch chunk content and metadata for the top-k from ChromaDB
-    
     fetched = _collection.get(ids=top_ids)
     
     id_to_idx = {cid: i for i, cid in enumerate(fetched["ids"])}

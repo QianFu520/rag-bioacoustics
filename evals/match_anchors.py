@@ -21,7 +21,6 @@ import chromadb
 from normalize import normalize
 
 
-# --- paths ---
 HERE = Path(__file__).parent
 EVAL_SET_PATH = HERE / "eval_set.md"
 CHROMA_PATH = HERE.parent / "chroma_db"
@@ -120,7 +119,6 @@ def run():
     normalized_chunks = load_chunks_normalized(CHROMA_PATH, COLLECTION_NAME)
     print(f"Loaded and normalized {len(normalized_chunks)} chunks\n")
 
-    # Build the ground truth structure and print diagnostic table
     print("=" * 75)
     print("PER-ANCHOR RESULTS")
     print("=" * 75)
@@ -148,7 +146,6 @@ def run():
             n_missing = result["missing_sentences"]
             chunks = result["ground_truth_chunks"]
 
-            # Classify the anchor
             if n_missing == 0:
                 fully_matched += 1
                 status_marker = "✓"
@@ -171,7 +168,6 @@ def run():
                 f"{sentence_summary:18} | gt: {short_chunks}"
             )
 
-            # Store in ground truth structure (full chunk IDs, not short)
             ground_truth[qid]["anchors"].append({
                 "anchor_index": anchor_idx,
                 "n_sentences": n_sentences,
@@ -179,7 +175,6 @@ def run():
                 "ground_truth_chunks": chunks,
             })
 
-    # Summary
     print("\n" + "=" * 75)
     print("SUMMARY")
     print("=" * 75)
@@ -199,13 +194,11 @@ def run():
                         f"sentence(s) missing — see NORMALIZER_NOTES.md"
                     )
 
-    # Coverage stat
     anchors_with_ground_truth = fully_matched + partial_matched
     pct = 100 * anchors_with_ground_truth / total_anchors if total_anchors else 0
     print(f"\n  Coverage: {anchors_with_ground_truth}/{total_anchors} "
           f"anchors have ground truth chunks ({pct:.1f}%)")
 
-    # Save ground truth artifact
     GROUND_TRUTH_PATH.write_text(json.dumps(ground_truth, indent=2))
     print(f"\n  Ground truth written to: {GROUND_TRUTH_PATH.name}")
     print()

@@ -31,34 +31,26 @@ def demote_markdown_headings(text):
         new_hashes = "#" * min(len(hashes) + 2, 6)
         return new_hashes
     return re.sub(r"(?m)^(#{1,6})(?=\s)", demote, text)
-# --- Heavy initialization (cached across reruns and sessions) ---
-
 @st.cache_resource
 def init_pipeline():
    
-    # Check if both indexes already exist
     indexes_exist = CHROMA_PATH.exists() and BM25_PATH.exists()
 
     if not indexes_exist:
-        # Streamlit Cloud first boot — build from scratch
         st.info("First-time setup: building indexes from source papers. This takes ~30 seconds.")
         from build_store import build
         build()
 
-    # Now load and return the retriever module — its module-level setup
-    
     from retrieve_hybrid import retrieve
     return retrieve
 
 
-# --- Page config (must be the first Streamlit call) ---
 st.set_page_config(
     page_title="Bioacoustics RAG Demo",
     page_icon="🔬",
     layout="wide",
 )
 
-# --- Title and intro ---
 st.title("Bioacoustics RAG — Project Demo")
 st.markdown(
     "An end-to-end RAG system over three bioacoustics research papers, with "
@@ -66,7 +58,6 @@ st.markdown(
     "retrieval improvements."
 )
 
-# Initialize the pipeline (cached — runs once)
 retrieve = init_pipeline()
 
 # --- Tabs ---
@@ -96,7 +87,6 @@ with tab1:
         submitted = st.form_submit_button("Ask")
 
     if submitted and question.strip():
-        # User submitted a non-empty question — run the pipeline
         from generate import answer
 
         with st.spinner("Retrieving passages and generating answer..."):
@@ -130,7 +120,6 @@ with tab2:
         "retrieval improvements moved the metrics."
     )
 
-    # --- Headline metrics: recall@5 coverage across four configs ---
     st.markdown("### Overall recall@5 coverage across iterations")
     col1, col2, col3, col4 = st.columns(4)
     with col1:
@@ -163,7 +152,6 @@ with tab2:
 
     st.markdown("&nbsp;")  # vertical spacing
 
-    # --- Full comparison table ---
     st.markdown("### Recall@k and faithfulness by configuration")
 
     import pandas as pd
@@ -188,7 +176,6 @@ with tab2:
 
     st.table(df.style.format({col: "{:.2f}" for col in df.columns if col != "Configuration"}))
 
-    # --- Brief reading guide ---
     st.markdown("### Reading the table")
     st.markdown(
         "- **any@k**: did retrieval get at least one ground-truth chunk into "
@@ -218,8 +205,6 @@ with tab3:
         "retrieved chunks, recall@5 score, the generated answer, and the "
         "faithfulness verdict."
     )
-
-    # --- Load eval set + ground truth (cached at app startup) ---
 
     @st.cache_resource
     def load_eval_data():
@@ -263,7 +248,6 @@ with tab3:
         5: "Refusal",
     }
 
-    # --- Question picker ---
     question_options = [
         f"{q['qid']} ({CATEGORY_NAMES[q['category']]}): {q['question'][:90]}..."
         for q in questions
@@ -277,8 +261,6 @@ with tab3:
 
     run_button = st.button("Run evaluation")
 
-    # --- The cached eval function ---
-
     @st.cache_data(show_spinner=False)
     def run_one_eval(qid, question_text, category):
         """Run retrieve + generate + judge for one question. Cached per question.
@@ -286,7 +268,6 @@ with tab3:
         Cache key is (qid, question_text, category). Same question → same cache hit,
         no repeated API calls.
         """
-        # Make evals/ importable so we can import the judge
         import sys
         sys.path.insert(0, str(PROJECT_ROOT / "evals"))
         from faithfulness import judge_faithfulness
@@ -313,19 +294,16 @@ with tab3:
                 selected["category"],
             )
 
-        # --- Display the question ---
         st.markdown("---")
         st.markdown(f"### {selected['qid']} — {CATEGORY_NAMES[selected['category']]}")
         st.markdown(f"**Question:** {selected['question']}")
 
-        # --- Determine ground truth for this question ---
         gt_entry = ground_truth.get(selected["qid"], {})
         gt_anchors = gt_entry.get("anchors", [])
 
         # Refusal questions (cat 5) have no anchors — handle separately
         is_refusal = selected["category"] == 5
 
-        # --- Ground truth display ---
         st.markdown("### Ground truth chunks")
         if is_refusal:
             st.info(
@@ -343,7 +321,6 @@ with tab3:
                 f"fully answerable: `{', '.join(gt_short_ids)}`"
             )
 
-        # --- Retrieved chunks ---
         st.markdown("### Retrieved chunks (top 5)")
         retrieved_id_set = set(result["retrieved_ids"])
         for i, (cid, doc, src) in enumerate(zip(
@@ -355,13 +332,11 @@ with tab3:
             src_name = src.split("/")[-1]
             is_match = cid in gt_chunk_ids
 
-            # Mark matching chunks with a checkmark
             match_marker = "✅" if is_match else ""
             st.markdown(f"**[{i}] {short_id}** _{src_name}_ {match_marker}")
             with st.expander("See chunk text"):
                 st.markdown(doc)
 
-        # --- Scorecard ---
         st.markdown("### Scorecard")
 
         if is_refusal:
@@ -387,7 +362,6 @@ with tab3:
         else:
             col1, col2, col3 = st.columns(3)
 
-            # Recall@5 hit 
             any_hit = len(retrieved_id_set & gt_chunk_ids) > 0
             recall_label = "Yes" if any_hit else "No"
             with col1:
@@ -401,7 +375,6 @@ with tab3:
                     unsafe_allow_html=True,
                 )
 
-            # Coverage — 
             n_hit = len(retrieved_id_set & gt_chunk_ids)
             n_gt = len(gt_chunk_ids)
             with col2:
@@ -415,8 +388,6 @@ with tab3:
                     unsafe_allow_html=True,
                 )
 
-            # Faithfulness
-            
             verdict_emoji = {
                 "supported": "✓",
                 "partially_supported": "◐",
@@ -434,11 +405,9 @@ with tab3:
                     unsafe_allow_html=True,
                 )
 
-        # --- Generated answer ---
         st.markdown("### Generated answer")
         st.markdown(demote_markdown_headings(result["answer"]))
 
-        # --- Judge rationale ---
         st.markdown("### Judge's reasoning")
         st.markdown(f"_{result['rationale']}_")
         if result["unsupported_claims"]:
